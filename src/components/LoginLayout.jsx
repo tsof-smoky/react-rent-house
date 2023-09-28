@@ -7,12 +7,7 @@ export default function LoginLayout({ children }) {
         <img className="h-full" src="/images/login-img.png" alt="" />
       </div>
       <div className="text-center p-[30px]">
-        <img
-          className="h-[100px] mx-auto"
-          src="images/logo.png"
-          alt=""
-          srcset=""
-        />
+        <img className="h-[100px] mx-auto" src="images/logo.png" alt="" />
         <div className="mt-[20px]">
           <Link to="/login">
             <button className="btn btn-warning mr-[20px]">Đăng nhập</button>

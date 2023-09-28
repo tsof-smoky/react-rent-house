@@ -1,10 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import Tippy from "@tippyjs/react/headless";
+
+import { logout } from "../redux/Action/UserAction";
 
 function DefaultLayout({ children }) {
   const location = useLocation();
+  const { name } = useSelector((state) => state.userLogin).user.data;
+  console.log(useSelector((state) => state.userLogin).user);
+
+  const dispath = useDispatch();
+
+  const handleLogout = () => {
+    dispath(logout());
+  };
 
   const feedData = [
     {
@@ -17,7 +29,7 @@ function DefaultLayout({ children }) {
     },
     {
       title: "Tìm người ở ghép",
-      link: "/roommate",
+      link: "/order",
     },
     {
       title: "Hỗ trợ",
@@ -47,7 +59,41 @@ function DefaultLayout({ children }) {
         </ul>
         <div className="text-[30px]">
           <FontAwesomeIcon icon={faMagnifyingGlass} className="mr-[50px]" />
-          <FontAwesomeIcon icon={faUser} />
+          <Tippy
+            interactive
+            delay={[0, 700]}
+            offset={[0, 12]}
+            placement="bottom-end"
+            theme="light-border"
+            trigger="click"
+            render={(attrs) => (
+              <div className="rounded-xl px-[10px] py-[20px] flex flex-col shadow-4xl bg-white">
+                <div className="flex">
+                  <img
+                    className="rounded-full h-[30px]"
+                    src="/images/user-img.png"
+                    alt=""
+                  />
+                  <div className="font-semibold italic text-[18px] ml-[10px]">
+                    {name}
+                  </div>
+                </div>
+                <hr className="mt-[15px]" />
+                <div tabIndex="-1" className="text-[16px]">
+                  <div
+                    className="flex items-center hover:bg-[#cac9c9] p-[10px] rounded-lg"
+                    onClick={handleLogout}
+                  >
+                    <button className="rounded-none bg-inherit hover:bg-[#cac9c9] text-black">
+                      Log out
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          >
+            <FontAwesomeIcon icon={faUser} />
+          </Tippy>
         </div>
       </div>
       <div className="pt-[100px]">{children}</div>

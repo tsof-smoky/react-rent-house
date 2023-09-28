@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,10 +13,55 @@ import {
   faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+
 import HouseCard from "../components/HouseCard";
+import { getHouseDetail, getHouseList } from "../redux/Action/HouseAction";
+import { createHouseBooking } from "../redux/Action/HouseBookingAction";
+
 export default function HouseDetail() {
   const { houseId } = useParams();
-  console.log(houseId);
+  const dispatch = useDispatch();
+  const { house } = useSelector((state) => state.houseList);
+  const { houses } = useSelector((state) => state.houseList);
+  const [houseList, setHouseList] = useState([]);
+  const [input, setInput] = useState({
+    email: "",
+    fullName: "",
+    phone: "",
+    message: "",
+  });
+
+  useEffect(() => {
+    dispatch(getHouseDetail(houseId));
+    dispatch(getHouseList());
+  }, []);
+
+  useEffect(() => {
+    if (houses) {
+      setHouseList(houses.filter((el) => el._id !== houseId).slice(0, 3));
+    }
+    if (house) {
+      console.log(house);
+    }
+  }, [houses, house]);
+
+  const handleChangeInput = (e) => {
+    setInput((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  const handleBookHome = () => {
+    dispatch(
+      createHouseBooking(
+        input.email,
+        input.fullName,
+        input.phone,
+        input.message,
+        houseId
+      )
+    );
+  };
 
   return (
     <div>
@@ -40,22 +87,33 @@ export default function HouseDetail() {
               type="text"
               placeholder="Họ tên"
               className="input input-bordered w-full mt-[30px] rounded-[20px]"
+              name="fullName"
+              onChange={handleChangeInput}
             />
             <input
               type="text"
               placeholder="Số điện thoại"
               className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              name="phone"
+              onChange={handleChangeInput}
             />{" "}
             <input
               type="email"
               placeholder="Email"
               className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              name="email"
+              onChange={handleChangeInput}
             />{" "}
             <textarea
               className="textarea textarea-bordered w-full mt-[20px] rounded-[20px]"
               placeholder="Lời nhắn"
+              name="message"
+              onChange={handleChangeInput}
             ></textarea>
-            <button className="btn btn-warning w-full mt-[20px] rounded-[20px]">
+            <button
+              className="btn btn-warning w-full mt-[20px] rounded-[20px]"
+              onClick={handleBookHome}
+            >
               GỬI NGAY
             </button>
           </div>
@@ -218,14 +276,15 @@ export default function HouseDetail() {
         </div>
         <div className="text-left my-[40px]">
           <p className="text-[25px]">Xem thêm những sản phẩm khác</p>
-          <div className="mt-[20px] grid grid-cols-3 gap-10">
-            {[...Array(3)].map((el, index) => (
+          <div className="my-[30px] grid grid-cols-3 mx-[100px] gap-10">
+            {houseList?.map((house, index) => (
               <HouseCard
-                id={index}
-                name="Căn Studio"
+                id={house._id}
+                name={house.name}
                 area="30m2"
-                price="5.000.000đ/ tháng"
-                furniture="đầy đủ"
+                price={`${house.price}đ/tháng`}
+                furniture={house.furniture}
+                key={index}
               />
             ))}
           </div>

@@ -5,26 +5,25 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { userLoginReducer, userRegisterReducer } from "./Reducers/UserReducer";
 import {
-  userChangepassword,
-  userLoginReducer,
-  userInfoUpdatedReducer,
-  userRegisterReducer,
-  userListReducer,
-  userAddedReducer,
-  userEditedReducer,
-  userDeletedReducer,
-} from "./Reducers/UserReducer";
+  houseListReducer,
+  houseDetailReducer,
+  houseCreateReducer,
+  houseUpdateReducer,
+  houseDeleteReducer,
+} from "./Reducers/HouseReducer";
+import { houseBookingCreateReducer } from "./Reducers/HouseBookingReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  userInfoUpdated: userInfoUpdatedReducer,
-  userChangpassword: userChangepassword,
-  userList: userListReducer,
-  userAdded: userAddedReducer,
-  userEdited: userEditedReducer,
-  userDeleted: userDeletedReducer,
+  houseList: houseListReducer,
+  houseDetail: houseDetailReducer,
+  houseCreate: houseCreateReducer,
+  houseUpdate: houseUpdateReducer,
+  houseDelete: houseDeleteReducer,
+  houseBookingCreate: houseBookingCreateReducer,
 });
 
 const userFromLocal = localStorage.getItem("USER")

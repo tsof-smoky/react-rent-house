@@ -22,7 +22,7 @@ function AdminLayout({ children }) {
     },
     {
       title: "Quản lý yêu cầu về bạn cùng phòng",
-      link: "/admin/roommaterequest",
+      link: "/admin/order",
     },
   ];
   return (

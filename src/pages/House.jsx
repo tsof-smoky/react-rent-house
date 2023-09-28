@@ -1,7 +1,26 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
+
 import HouseItem from "../components/HouseItem";
+import { getHouseDetail, getHouseList } from "../redux/Action/HouseAction";
+
 export default function House() {
+  const dispatch = useDispatch();
+  const { houses } = useSelector((state) => state.houseList);
+  const [houseList, setHouseList] = useState([]);
+
+  useEffect(() => {
+    dispatch(getHouseList());
+  }, []);
+
+  useEffect(() => {
+    if (houses) {
+      console.log(houses);
+      setHouseList(houses);
+    }
+  }, [houses]);
   return (
     <div>
       <img src="/images/house-list-img.png" alt="" />
@@ -29,9 +48,16 @@ export default function House() {
             Sắp xếp theo <FontAwesomeIcon icon={faSort} />
           </button>
           <div className="mt-[30px]">
-            {" "}
-            {[...Array(10)].map((el, index) => (
-              <HouseItem id={index} />
+            {houseList.map((house, index) => (
+              <HouseItem
+                id={house._id}
+                name={house.name}
+                area="30m2"
+                price={`${house.price}đ/tháng`}
+                bedrooms={house.type}
+                direction={house.balconyDirection}
+                key={index}
+              />
             ))}
           </div>
         </div>

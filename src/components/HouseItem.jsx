@@ -16,7 +16,7 @@ export default function HouseItem(props) {
         </div>
         <div className="col-span-7 text-left flex flex-col justify-between">
           <div>
-            <p className="text-[30px]">S2.08 - Studio</p>
+            <p className="text-[30px]">{props.name}</p>
             <div className="bg-white flex mt-[30px]">
               <div className="flex items-center mr-[40px]">
                 <FontAwesomeIcon
@@ -30,7 +30,7 @@ export default function HouseItem(props) {
                   className="text-[25px] mr-[10px]"
                   icon={faBed}
                 />
-                2
+                {props.bedrooms}
               </div>
               <div className="flex items-center mr-[40px]">
                 <FontAwesomeIcon
@@ -44,11 +44,11 @@ export default function HouseItem(props) {
                   className="text-[25px] mr-[10px]"
                   icon={faCompass}
                 />
-                Tây Bắc
+                {props.direction}
               </div>
             </div>
           </div>
-          <div className="font-bold text-[30px]">5.300.000đ</div>
+          <div className="font-bold text-[30px]">{props.price}</div>
         </div>
       </div>{" "}
     </Link>

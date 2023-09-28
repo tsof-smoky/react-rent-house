@@ -2,7 +2,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function Roommate() {
+export default function Order() {
   const [step, setStep] = useState(1);
   const [gender, setGender] = useState("Giới tính");
   const [birthDate, setBirthDate] = useState(new Date());
