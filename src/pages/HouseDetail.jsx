@@ -81,37 +81,37 @@ export default function HouseDetail() {
           </div>
         </div>
         <div className="col-span-5">
-          <div className="bg-[#F8E3AF] p-[30px]">
+          <div className="bg-[#E1F2FF] p-[30px]">
             <div className="text-[30px] underline ">Đặt lịch xem nhà</div>
             <input
               type="text"
               placeholder="Họ tên"
-              className="input input-bordered w-full mt-[30px] rounded-[20px]"
+              className="input input-bordered w-full mt-[30px]"
               name="fullName"
               onChange={handleChangeInput}
             />
             <input
               type="text"
               placeholder="Số điện thoại"
-              className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              className="input input-bordered w-full mt-[20px]"
               name="phone"
               onChange={handleChangeInput}
             />{" "}
             <input
               type="email"
               placeholder="Email"
-              className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              className="input input-bordered w-full mt-[20px]"
               name="email"
               onChange={handleChangeInput}
             />{" "}
             <textarea
-              className="textarea textarea-bordered w-full mt-[20px] rounded-[20px]"
+              className="textarea textarea-bordered w-full mt-[20px]"
               placeholder="Lời nhắn"
               name="message"
               onChange={handleChangeInput}
             ></textarea>
             <button
-              className="btn btn-warning w-full mt-[20px] rounded-[20px]"
+              className="btn bg-[#89CBFF] w-full mt-[20px] rounded-[20px]"
               onClick={handleBookHome}
             >
               GỬI NGAY

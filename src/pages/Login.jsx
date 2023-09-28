@@ -37,14 +37,14 @@ export default function Login() {
       <input
         type="email"
         placeholder="Email"
-        className="input input-bordered w-full"
+        className="input input-bordered w-full bg-[#D3EBFB]"
         name="email"
         onChange={handleChangeInput}
       />
       <input
         type="password"
         placeholder="Mật khẩu"
-        className="input input-bordered w-full mt-[20px]"
+        className="input input-bordered w-full mt-[20px] bg-[#EAE2F9]"
         name="password"
         onChange={handleChangeInput}
       />
@@ -64,7 +64,7 @@ export default function Login() {
       </div>
 
       <button
-        className="btn btn-warning mr-[20px] mt-[20px]"
+        className="btn bg-[#B6E2D3] mr-[20px] mt-[50px]"
         onClick={handleLogin}
       >
         Đăng nhập

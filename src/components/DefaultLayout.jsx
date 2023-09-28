@@ -38,7 +38,7 @@ function DefaultLayout({ children }) {
   ];
   return (
     <>
-      <div className="bg-[#F8E3AF] h-[100px] flex items-center justify-between px-[100px] fixed w-full min-w-[1200px] z-50">
+      <div className="bg-[#fff5bc] h-[100px] flex items-center justify-between px-[100px] fixed w-full min-w-[1200px] z-50">
         <Link to="/">
           <img src="/images/logo.png" className="h-[80px]" alt="" />
         </Link>
@@ -97,42 +97,40 @@ function DefaultLayout({ children }) {
         </div>
       </div>
       <div className="pt-[100px]">{children}</div>
-      <div className="bg-[url('../public/images/footer-img.png')] h-[600px] grid grid-cols-2 pt-[50px]">
-        <div className="text-white pl-[100px]">
-          <div className="text-left ml-[100px] text-[35px]">
-            Thông tin liên hệ
-          </div>
-          <div className="text-left mt-[20px] text-[20px]">
-            Hotline: 035 698 xxx <br /> Email: timnha@gmail.com <br />
-            Website: www.timnha.com.vn <br /> Địa chỉ: Đường Nguyễn Xiển –
-            P.Long Thạnh Mỹ <br /> – Quận 9 – Thủ Đức, TP.Hồ Chí Minh
-          </div>
-        </div>
+      <div className="bg-[url('../public/images/footer-img.png')] grid grid-cols-2 pt-[50px]">
+        <div></div>
         <div className="pr-[100px]">
           <div className="bg-white bg-opacity-60 p-[30px] rounded-[60px]">
             <div className="text-[35px]">Nhận thông tin</div>
             <input
               type="text"
               placeholder="Họ tên"
-              className="input input-bordered w-full mt-[30px] rounded-[20px]"
+              className="input input-bordered w-full mt-[30px] rounded-[20px] bg-[#FFEAE8]"
             />
             <input
               type="text"
               placeholder="Số điện thoại"
-              className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              className="input input-bordered w-full mt-[20px] rounded-[20px] bg-[#E6FFED]"
             />{" "}
             <input
               type="email"
               placeholder="Email"
-              className="input input-bordered w-full mt-[20px] rounded-[20px]"
+              className="input input-bordered w-full mt-[20px] rounded-[20px] bg-[#EAE3FD]"
             />{" "}
             <textarea
-              className="textarea textarea-bordered w-full mt-[20px] rounded-[20px]"
+              className="textarea textarea-bordered w-full mt-[20px] rounded-[20px] bg-[#E1F2FD]"
               placeholder="Lời nhắn"
             ></textarea>
-            <button className="btn btn-warning w-full mt-[20px] rounded-[20px]">
+            <button className="btn bg-[#FFDE87] px-[50px] mt-[20px] rounded-[20px]">
               GỬI NGAY
             </button>
+            <div className="pl-[100px] mt-[50px] text-left text-[20px]">
+              Hotline: 0963113949 <br /> Email: timnhauytin201@gmail.com
+              <br />
+              Facebook: https://www.facebook.com/timnhauytin201
+              <br />
+              Website: www.timnhauytin201.com.vn
+            </div>
           </div>
         </div>
       </div>

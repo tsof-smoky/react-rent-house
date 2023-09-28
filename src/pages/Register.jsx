@@ -45,33 +45,33 @@ export default function Register() {
       <input
         type="email"
         placeholder="Email"
-        className="input input-bordered w-full"
+        className="input input-bordered w-full bg-[#D3EBFB]"
         name="email"
         onChange={handleChangeInput}
       />
       <input
         type="text"
         placeholder="Họ tên"
-        className="input input-bordered w-full mt-[20px]"
+        className="input input-bordered w-full mt-[20px] bg-[#EAE2F9]"
         name="fullName"
         onChange={handleChangeInput}
       />
       <input
         type="password"
         placeholder="Mật khẩu"
-        className="input input-bordered w-full mt-[20px]"
+        className="input input-bordered w-full mt-[20px] bg-[#F8E3AF]"
         name="password"
         onChange={handleChangeInput}
       />
       <input
         type="password"
         placeholder="Nhập lại mật khẩu"
-        className="input input-bordered w-full mt-[20px]"
+        className="input input-bordered w-full mt-[20px] bg-[#F9EED9]"
         name="passwordConfirm"
         onChange={handleChangeInput}
       />
       <button
-        className="btn btn-warning mr-[20px] mt-[20px]"
+        className="btn bg-[#FBDDDB] mr-[20px] mt-[50px]"
         onClick={handleRegister}
       >
         Đăng ký

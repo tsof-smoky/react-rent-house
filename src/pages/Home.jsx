@@ -23,10 +23,16 @@ export default function Home() {
     <>
       <div>
         <img src="/images/home-img.png" alt="" />
+        <div className="text-[40px] text-[#B19D7A] text-left mx-[100px] my-[30px]">
+          Ứng dụng tìm nhà tiện lợi, dễ dàng, nhanh chóng <br />
+          Luôn đặt sự uy tín và tử tế lên hàng đầu
+        </div>
 
         <div className="py-[30px]">
           <div>
-            <button className="btn btn-outline">Xem các loại phòng</button>
+            <button className="btn btn-outline bg-[#CFEAE1] px-[50px]">
+              Xem các loại phòng
+            </button>
           </div>
           <div className="my-[30px] grid grid-cols-3 mx-[100px] gap-10">
             {houseList?.map((house, index) => (
@@ -42,7 +48,9 @@ export default function Home() {
           </div>
           <div>
             <Link to="/order">
-              <button className="btn btn-outline">Tìm người ở ghép</button>
+              <button className="btn btn-outline bg-[#CFEAE1] px-[50px]">
+                Tìm người ở ghép
+              </button>
             </Link>
           </div>
         </div>

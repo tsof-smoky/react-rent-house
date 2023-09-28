@@ -39,13 +39,13 @@ export default function Order() {
 
   return (
     <div>
-      <img src="/images/roommate-img.png" alt="" />
+      <img src="/images/order-img.png" alt="" />
       {step === 1 ? (
         <div className="mx-[100px] my-[50px]">
-          <span className="bg-[#FFD700] text-[30px] py-[10px] px-[30px] rounded-[20px]">
+          <span className="bg-[#E6DFF9] text-[30px] py-[10px] px-[30px] rounded-[20px]">
             Mong muốn của bạn:
           </span>
-          <div className="grid grid-cols-2 bg-[#FFFBEC] my-[30px] py-[50px] px-[100px] gap-x-[200px] gap-y-[20px] rounded-[20px]">
+          <div className="grid grid-cols-2 bg-[#CFEAE1] my-[30px] py-[50px] px-[100px] gap-x-[200px] gap-y-[20px] rounded-[20px]">
             <div className="flex justify-between items-center">
               Giới tính{" "}
               <select className="select select-primary" value=""></select>
@@ -73,7 +73,7 @@ export default function Order() {
           </div>
           <div className="text-right">
             <button
-              className="btn btn-warning rounded-[20px]"
+              className="btn bg-[#E3EFF8] rounded-[20px] px-[50px]"
               onClick={() => setStep(2)}
             >
               Tiếp theo
@@ -83,17 +83,17 @@ export default function Order() {
       ) : (
         <div>
           <div className="mx-[100px] my-[50px]">
-            <span className="bg-[#FFD700] text-[30px] py-[10px] px-[30px] rounded-[20px]">
-              Thông tin cá nhân
-            </span>
-            <div className="bg-[#FFFBEC] my-[30px] py-[50px] px-[100px] rounded-[20px]">
+            <div className="bg-[#FFFEF5] my-[30px] py-[50px] px-[100px] rounded-[20px]">
+              <span className="bg-[#C9E7FC] text-[30px] py-[10px] px-[30px] rounded-[20px]">
+                Thông tin cá nhân
+              </span>
               <input
                 type="text"
                 placeholder="Họ và tên"
-                className="input input-bordered w-full mt-[20px] rounded-[20px] border-black"
+                className="input input-bordered w-full mt-[50px] border-black bg-[#FFEAEA]"
               />
               <select
-                className="select select-primary w-full my-[50px] border-black rounded-[20px]"
+                className="select select-primary w-full my-[50px] border-black bg-[#FFEAEA]"
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
               >
@@ -102,14 +102,14 @@ export default function Order() {
                 <option>Nữ</option>
                 <option>Khác</option>
               </select>
-              <div className="bg-white w-full border border-black rounded-[20px] text-left mb-[50px]">
+              <div className="w-full border border-black rounded-[10px] text-left mb-[50px] bg-[#FFEAEA]">
                 <DatePicker
                   selected={birthDate}
                   onChange={(date) => setBirthDate(date)}
-                  className="w-full text-left rounded-[20px] py-[10px] pl-[20px]"
+                  className="w-full text-left rounded-[10px] py-[10px] pl-[20px]  bg-[#FFEAEA]"
                 />
               </div>
-              <span className="bg-[#FFD700] text-[30px] py-[10px] px-[30px] rounded-[20px]">
+              <span className="bg-[#C9E7FC] text-[30px] py-[10px] px-[30px] rounded-[20px]">
                 Xác minh thông tin
               </span>
               <div className="grid grid-cols-2 gap-20 mt-[50px]">
@@ -117,7 +117,7 @@ export default function Order() {
                   <div className="mb-[20px]">CMND/CCCD mặt trước</div>
                   <input
                     type="file"
-                    className="file-input file-input-bordered file-input-warning w-full max-w-xs"
+                    className="file-input file-input-bordered  bg-[#FFEAEA] w-full max-w-xs"
                     accept="image/png, image/jpeg"
                     onChange={handleUploadFrontCccd}
                   />
@@ -131,7 +131,7 @@ export default function Order() {
                   <div className="mb-[20px]">CMND/CCCD mặt sau</div>
                   <input
                     type="file"
-                    className="file-input file-input-bordered file-input-warning w-full max-w-xs"
+                    className="file-input file-input-bordered  bg-[#FFEAEA] w-full max-w-xs"
                     accept="image/png, image/jpeg"
                     onChange={handleUploadBackCccd}
                   />
@@ -146,7 +146,7 @@ export default function Order() {
                 <div className="mb-[20px]">Hình ảnh hiện tại</div>
                 <input
                   type="file"
-                  className="file-input file-input-bordered file-input-warning w-full max-w-xs"
+                  className="file-input file-input-bordered  bg-[#FFEAEA] w-full max-w-xs"
                   accept="image/png, image/jpeg"
                   onChange={handleUploadAvatar}
                 />
@@ -159,7 +159,7 @@ export default function Order() {
             </div>
 
             <div className="text-right">
-              <button className="btn btn-warning rounded-[20px]">
+              <button className="btn bg-[#FFD700] rounded-[20px]">
                 Hoàn thành
               </button>
             </div>

@@ -25,26 +25,37 @@ export default function House() {
     <div>
       <img src="/images/house-list-img.png" alt="" />
       <div className="mx-[100px] flex justify-between my-[30px]">
-        <select className="select select-primary" value="Loại căn">
+        <select className="select select-primary bg-[#DBECF9]" value="Loại căn">
           <option disabled>Loại căn</option>
         </select>
-        <select className="select select-primary" value="Tòa">
+        <select className="select select-primary bg-[#E4DDF9]" value="Tòa">
           <option disabled>Tòa</option>
         </select>
-        <select className="select select-primary" value="Khoảng giá">
+        <select
+          className="select select-primary bg-[#CFEAE1]"
+          value="Khoảng giá"
+        >
           <option disabled>Khoảng giá</option>
         </select>
-        <select className="select select-primary" value="Hướng nhà">
+        <select
+          className="select select-primary bg-[#FFF2D0]"
+          value="Hướng nhà"
+        >
           <option disabled>Hướng nhà</option>
         </select>
-        <select className="select select-primary" value="Nội thất tối thiểu">
+        <select
+          className="select select-primary bg-[#FFCBCB]"
+          value="Nội thất tối thiểu"
+        >
           <option disabled>Nội thất tối thiểu</option>
         </select>
-        <button className="btn btn-warning">Tìm kiếm</button>
+        <button className="btn bg-[#1C156C] text-white hover:text-black">
+          Tìm kiếm
+        </button>
       </div>
       <div className="bg-[#F5F5F5] py-[20px] px-[100px]">
         <div className="text-right">
-          <button className="btn btn-outline">
+          <button className="btn bg-[#E3EFF8]">
             Sắp xếp theo <FontAwesomeIcon icon={faSort} />
           </button>
           <div className="mt-[30px]">

@@ -2,20 +2,15 @@ import { Link } from "react-router-dom";
 
 export default function LoginLayout({ children }) {
   return (
-    <div className="grid grid-cols-2 w-[1000px] my-[100px] mx-auto shadow-xl">
-      <div>
-        <img className="h-full" src="/images/login-img.png" alt="" />
-      </div>
-      <div className="text-center p-[30px]">
-        <img className="h-[100px] mx-auto" src="images/logo.png" alt="" />
-        <div className="mt-[20px]">
-          <Link to="/login">
-            <button className="btn btn-warning mr-[20px]">Đăng nhập</button>
-          </Link>
-          <Link to="/register">
-            <button className="btn btn-warning">Đăng ký</button>
-          </Link>
-        </div>
+    <div className="w-[1000px] my-[100px] mx-auto shadow-xl text-center p-[30px] bg-[#FFFEF5]">
+      <img className="h-[100px] mx-auto" src="images/logo.png" alt="" />
+      <div className="mt-[20px]">
+        <Link to="/">
+          <button className="btn bg-[#B6E2D3] mr-[100px]">Đăng nhập</button>
+        </Link>
+        <Link to="/register">
+          <button className="btn bg-[#FBDDDB]">Đăng ký</button>
+        </Link>
         {children}
       </div>
     </div>
