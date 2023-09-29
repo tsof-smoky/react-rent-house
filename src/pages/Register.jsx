@@ -14,13 +14,19 @@ export default function Register() {
   });
 
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.userRegister);
+  const { user, error } = useSelector((state) => state.userRegister);
 
   useEffect(() => {
     if (error) {
       toast.error(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (user) {
+      window.location.href = "/";
+    }
+  }, [user]);
 
   const handleChangeInput = (e) => {
     setInput((prev) => {
