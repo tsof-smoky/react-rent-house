@@ -42,7 +42,7 @@ function AdminLayout({ children }) {
           <button className="mr-[70px]" onClick={() => setShow(!show)}>
             <FontAwesomeIcon icon={faBars} className="h-[30px]" />
           </button>
-          <Link to="/admin">
+          <Link to="/">
             <div className="flex items-center">
               <img src="/images/logo.png" className="h-[80px]" alt="" />
               <p className="text-[30px] ml-[10px] font-semibold">Admin</p>
