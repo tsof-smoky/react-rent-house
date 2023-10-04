@@ -47,16 +47,28 @@ export default function Order() {
           </span>
           <div className="grid grid-cols-2 bg-[#CFEAE1] my-[30px] py-[50px] px-[100px] gap-x-[200px] gap-y-[20px] rounded-[20px]">
             <div className="flex justify-between items-center">
-              Giới tính{" "}
-              <select className="select select-primary" value=""></select>
+              Giới tính
+              <select className="select select-primary" value="">
+                <option>Nam</option>
+                <option>Nữ</option>
+                <option>Khác</option>
+              </select>
             </div>
             <div className="flex justify-between items-center">
               Đã có bao nhiêu người
-              <select className="select select-primary" value=""></select>
+              <select className="select select-primary" value="">
+                {[...Array(8)].map((el, i) => (
+                  <option>{i + 1}</option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-between items-center">
               Số lượng người
-              <select className="select select-primary" value=""></select>
+              <select className="select select-primary" value="">
+                {[...Array(8)].map((el, i) => (
+                  <option>{i + 1}</option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-between items-center">
               Khoảng giá
@@ -68,7 +80,11 @@ export default function Order() {
             </div>
             <div className="flex justify-between items-center">
               Nội thất tối thiểu
-              <select className="select select-primary" value=""></select>
+              <select className="select select-primary" value="">
+                <option>Không nội thất</option>
+                <option>Nội thất một phần</option>
+                <option>Nội thất đầy đủ</option>
+              </select>
             </div>
           </div>
           <div className="text-right">
@@ -159,7 +175,13 @@ export default function Order() {
             </div>
 
             <div className="text-right">
-              <button className="btn bg-[#FFD700] rounded-[20px]">
+              <button
+                className="btn bg-[#E3EFF8] rounded-[20px] px-[30px] mr-[30px] "
+                onClick={() => setStep(1)}
+              >
+                Quay lại
+              </button>
+              <button className="btn bg-[#FFD700] rounded-[20px] px-[30px]">
                 Hoàn thành
               </button>
             </div>
