@@ -21,9 +21,10 @@ import { createHouseBooking } from "../redux/Action/HouseBookingAction";
 export default function HouseDetail() {
   const { houseId } = useParams();
   const dispatch = useDispatch();
-  const { house } = useSelector((state) => state.houseList);
+  const { house } = useSelector((state) => state.houseDetail);
   const { houses } = useSelector((state) => state.houseList);
   const [houseList, setHouseList] = useState([]);
+  const [houseDetail, setHouseDetail] = useState({});
   const [input, setInput] = useState({
     email: "",
     fullName: "",
@@ -33,17 +34,23 @@ export default function HouseDetail() {
 
   useEffect(() => {
     dispatch(getHouseDetail(houseId));
-    dispatch(getHouseList());
+    if (!houses) {
+      dispatch(getHouseList());
+    }
   }, []);
 
   useEffect(() => {
     if (houses) {
       setHouseList(houses.filter((el) => el._id !== houseId).slice(0, 3));
     }
+  }, [houses]);
+
+  useEffect(() => {
     if (house) {
       console.log(house);
+      setHouseDetail(house);
     }
-  }, [houses, house]);
+  }, [house]);
 
   const handleChangeInput = (e) => {
     setInput((prev) => {
@@ -67,8 +74,8 @@ export default function HouseDetail() {
     <div>
       <div className="grid grid-cols-12 gap-10 px-[100px] my-[50px]">
         <div className="col-span-7">
-          <img src="/images/house-img.png" alt="" className="w-full" />
-          <div className="grid grid-cols-3 gap-5 mt-[20px]">
+          <img src={houseDetail.pictureLink} alt="" className="w-full" />
+          {/* <div className="grid grid-cols-3 gap-5 mt-[20px]">
             <div>
               <img src="/images/house-img.png" alt="" />
             </div>
@@ -78,7 +85,7 @@ export default function HouseDetail() {
             <div>
               <img src="/images/house-img.png" alt="" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="col-span-5">
           <div className="bg-[#E1F2FF] p-[30px]">
@@ -129,28 +136,28 @@ export default function HouseDetail() {
                     className="text-[25px] mr-[10px]"
                     icon={faVectorSquare}
                   />
-                  63.6 m2
+                  null
                 </div>
                 <div className="flex items-center mr-[40px]">
                   <FontAwesomeIcon
                     className="text-[25px] mr-[10px]"
                     icon={faBed}
                   />
-                  2
+                  {houseDetail.type}
                 </div>
                 <div className="flex items-center mr-[40px]">
                   <FontAwesomeIcon
                     className="text-[25px] mr-[10px]"
                     icon={faBath}
                   />
-                  2WC
+                  null
                 </div>
                 <div className="flex items-center">
                   <FontAwesomeIcon
                     className="text-[25px] mr-[10px]"
                     icon={faCompass}
                   />
-                  Tây Bắc
+                  {houseDetail.homeDirection}
                 </div>
               </div>
               <div>
@@ -158,12 +165,25 @@ export default function HouseDetail() {
               </div>
             </div>
             <div className="text-left mt-[50px]">
-              CHO THUÊ CĂN HỘ 1PN+ XỊN XÒ VINHOMES GRAND PARK QUẬN 9 <br />
-              Căn hộ 1PN+ 1WC – diện tích: 57 m2 <br />
-              Giá thuê: 7.000.000đ / tháng – cọc 2 tháng <br />
-              Nội thất: đầy đủ nội thất luxury
+              <div className="text-[30px] font-semibold">
+                {houseDetail.name}
+              </div>
+              <div>Diện tích: null</div>
+              <div>Giá thuê: {houseDetail.price}đ/tháng</div>
+              <div>Cọc: {houseDetail.deposit}</div>
+              <div>
+                Nội thất:{" "}
+                {houseDetail.furniture === 0
+                  ? "Không nội thất"
+                  : houseDetail.furniture === 1
+                  ? "Một phần"
+                  : "Đầy đủ"}
+              </div>
               <hr className="bg-black h-[2px] my-[10px]" />
-              Tiện ích tại Vinhomes Grand Park “Một bước chân ngàn tiện ích”:
+              {houseDetail.description?.split("\n").map((line, index) => (
+                <div key={index}>{line}</div>
+              ))}
+              {/* Tiện ích tại Vinhomes Grand Park “Một bước chân ngàn tiện ích”:
               <ul className="list-disc ml-[30px]">
                 <li>Phí quản lý 8.800đ /m2</li>
                 <li>Gởi xe 1.250.000đ/oto – 150.000đ/xe máy</li>
@@ -175,7 +195,7 @@ export default function HouseDetail() {
                 <li>Trường học liên cấp Vinschool</li>
                 <li>Trung tâm thương mại Vincom Mega Mall rộng 5.000 m2</li>
                 <li>Chợ đêm Vinhomes Grand Park.</li>
-              </ul>
+              </ul> */}
             </div>
           </div>
 
@@ -192,7 +212,7 @@ export default function HouseDetail() {
                   />
                   Diện tích
                 </div>
-                <p className="text-blue-600">70m2</p>
+                <p className="text-blue-600">null</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -203,7 +223,7 @@ export default function HouseDetail() {
                   />
                   Phòng ngủ
                 </div>
-                <p className="text-blue-600">02</p>
+                <p className="text-blue-600">{houseDetail.type}</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -214,7 +234,7 @@ export default function HouseDetail() {
                   />
                   Phòng tắm/WC
                 </div>
-                <p className="text-blue-600">02</p>
+                <p className="text-blue-600">null</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -225,7 +245,14 @@ export default function HouseDetail() {
                   />
                   Nội thất
                 </div>
-                <p className="text-blue-600">Đầy đủ</p>
+                <p className="text-blue-600">
+                  {" "}
+                  {houseDetail.furniture === 0
+                    ? "Không nội thất"
+                    : houseDetail.furniture === 1
+                    ? "Một phần"
+                    : "Đầy đủ"}
+                </p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -236,7 +263,7 @@ export default function HouseDetail() {
                   />
                   Hướng nhà
                 </div>
-                <p className="text-blue-600">Đông Nam</p>
+                <p className="text-blue-600">{houseDetail.homeDirection}</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -247,7 +274,7 @@ export default function HouseDetail() {
                   />
                   Hướng ban công
                 </div>
-                <p className="text-blue-600">Đông Nam</p>
+                <p className="text-blue-600">{houseDetail.balconyDirection}</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -258,7 +285,7 @@ export default function HouseDetail() {
                   />
                   Pháp lý
                 </div>
-                <p className="text-blue-600">Sổ đỏ/Sổ hồng</p>
+                <p className="text-blue-600">{houseDetail.juridical}</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -269,7 +296,7 @@ export default function HouseDetail() {
                   />
                   Đặc điểm
                 </div>
-                <p className="text-blue-600">View hồ bơi</p>
+                <p className="text-blue-600">{houseDetail.feature}</p>
               </div>
             </div>
           </div>
@@ -281,9 +308,10 @@ export default function HouseDetail() {
               <HouseCard
                 id={house._id}
                 name={house.name}
-                area="30m2"
-                price={`${house.price}đ/tháng`}
+                area="null"
+                price={house.price}
                 furniture={house.furniture}
+                pictureLink={house.pictureLink}
                 key={index}
               />
             ))}

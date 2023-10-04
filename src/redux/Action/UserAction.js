@@ -8,6 +8,15 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_UPDATE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_DELETE_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
 } from "../Constant/UserConstant";
 
 export const login = (email, password) => async (dispatch) => {
@@ -77,4 +86,97 @@ export const logout = () => async (dispatch) => {
   localStorage.removeItem("USER");
   dispatch({ type: USER_LOGOUT });
   window.location.href = "/";
+};
+
+export const getUserList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+    const {
+      userLogin: { user },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.get(`http://localhost:3443/api/users`, config);
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: res.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
+};
+
+export const updateUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST,
+    });
+    const {
+      userLogin: { user },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.put(
+      `http://localhost:3443/api/users/${id}`,
+      {
+        //
+      },
+      config
+    );
+    dispatch({
+      type: USER_UPDATE_SUCCESS,
+      payload: res.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+    const {
+      userLogin: { user },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.delete(
+      `http://localhost:3443/api/users/${id}`,
+      config
+    );
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+      payload: res.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
 };

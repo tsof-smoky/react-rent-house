@@ -10,7 +10,6 @@ import { logout } from "../redux/Action/UserAction";
 function DefaultLayout({ children }) {
   const location = useLocation();
   const { name } = useSelector((state) => state.userLogin).user.data;
-  console.log(useSelector((state) => state.userLogin).user);
 
   const dispath = useDispatch();
 

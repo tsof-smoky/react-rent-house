@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 
 import HouseItem from "../components/HouseItem";
-import { getHouseDetail, getHouseList } from "../redux/Action/HouseAction";
+import { getHouseList } from "../redux/Action/HouseAction";
 
 export default function House() {
   const dispatch = useDispatch();
@@ -12,12 +12,13 @@ export default function House() {
   const [houseList, setHouseList] = useState([]);
 
   useEffect(() => {
-    dispatch(getHouseList());
+    if (!houses) {
+      dispatch(getHouseList());
+    }
   }, []);
 
   useEffect(() => {
     if (houses) {
-      console.log(houses);
       setHouseList(houses);
     }
   }, [houses]);
@@ -63,10 +64,11 @@ export default function House() {
               <HouseItem
                 id={house._id}
                 name={house.name}
-                area="30m2"
-                price={`${house.price}đ/tháng`}
-                bedrooms={house.type}
-                direction={house.balconyDirection}
+                area="null"
+                price={house.price}
+                type={house.type}
+                homeDirection={house.homeDirection}
+                pictureLink={house.pictureLink}
                 key={index}
               />
             ))}

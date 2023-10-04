@@ -10,7 +10,9 @@ export default function Home() {
   const [houseList, setHouseList] = useState([]);
 
   useEffect(() => {
-    dispatch(getHouseList());
+    if (!houses) {
+      dispatch(getHouseList());
+    }
   }, []);
 
   useEffect(() => {
@@ -39,10 +41,11 @@ export default function Home() {
               <HouseCard
                 id={house._id}
                 name={house.name}
-                area="30m2"
-                price={`${house.price}đ/tháng`}
+                area="null"
+                price={house.price}
                 furniture={house.furniture}
                 key={index}
+                pictureLink={house.pictureLink}
               />
             ))}
           </div>

@@ -1,64 +1,108 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
-
-// import Table from '@mui/material/Table';
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-
+  getUserList,
+  updateUser,
+  deleteUser,
+} from "../../redux/Action/UserAction";
 export default function UserList() {
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  const dispatch = useDispatch();
+  const { users } = useSelector((state) => state.userList);
 
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+  useEffect(() => {
+    if (!users) {
+      dispatch(getUserList());
+    }
+    console.log(users);
+  }, []);
+
+  const handleOpenEditUserModal = () => {};
+
+  const handleOpenDeleteUserModal = () => {};
+
   return (
     <div className="mt-[50px]">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      <table className="min-w-full bg-white mt-[20px] ">
+        <thead className="border-collapse border">
+          <tr>
+            <th className="w-[5%] border text-center py-[15px] px-2  font-semibold text-sm">
+              #
+            </th>
+            <th className="w-[20%] border text-center py-[15px] px-2 font-semibold text-sm">
+              Email
+            </th>
+            <th className="w-[25%] border text-center py-[15px] px-2 font-semibold text-sm">
+              Tên
+            </th>
+            <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+              Vai trò
+            </th>
+            <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+              Chỉnh sửa
+            </th>
+            <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
+              Xóa
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {users?.map((user, index) => {
+            return (
+              <tr
+                className={index % 2 ? "bg-white" : "bg-[#f5f6ff]"}
+                key={index}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                <td className="w-[5%] border text-center py-[15px] px-2  text-sm">
+                  {index + 1}
+                </td>
+                <td className="w-[20%] border text-center py-[15px] px-2 text-sm">
+                  {user.email}
+                </td>
+                <td className="w-[25%] border text-center py-[15px] px-2 text-sm">
+                  {user.name}
+                </td>
+                <td className="w-[10%] border text-center py-[15px] px-2 text-sm">
+                  {user.role}
+                </td>
+                {user.role === "admin" ? (
+                  <>
+                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm"></td>
+                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm"></td>
+                  </>
+                ) : (
+                  <>
+                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                      <div className="w-full flex justify-center ">
+                        <div
+                          className="bg-sky-500 cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                          data-index={index}
+                          onClick={handleOpenEditUserModal}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
+                      <div className="w-full flex justify-center ">
+                        <div
+                          className="bg-[#fa0000] cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
+                          data-index={index}
+                          onClick={handleOpenDeleteUserModal}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </div>
+                    </td>
+                  </>
+                )}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

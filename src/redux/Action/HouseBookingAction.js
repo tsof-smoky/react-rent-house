@@ -32,14 +32,12 @@ export const createHouseBooking =
         },
         config
       );
-      console.log(res);
 
       dispatch({
         type: HOUSE_BOOKING_CREATE_SUCCESS,
         payload: res.data.data,
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: HOUSE_BOOKING_CREATE_FAIL,
         payload: error?.response?.data?.message,
