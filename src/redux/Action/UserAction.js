@@ -30,7 +30,7 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
     const res = await axios.post(
-      `http://localhost:3443/api/users/login`,
+      `https://api-timnha.onrender.com/api/users/login`,
       {
         email,
         password,
@@ -61,7 +61,7 @@ export const register =
         },
       };
       const res = await axios.post(
-        `http://localhost:3443/api/users/register`,
+        `https://api-timnha.onrender.com/api/users/register`,
         {
           email,
           fullName,
@@ -103,7 +103,7 @@ export const getUserList = () => async (dispatch, getState) => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.get(`http://localhost:3443/api/users`, config);
+    const res = await axios.get(`https://api-timnha.onrender.com/api/users`, config);
     dispatch({
       type: USER_LIST_SUCCESS,
       payload: res.data.data,
@@ -132,7 +132,7 @@ export const updateUser = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.put(
-      `http://localhost:3443/api/users/${id}`,
+      `https://api-timnha.onrender.com/api/users/${id}`,
       {
         //
       },
@@ -166,7 +166,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.delete(
-      `http://localhost:3443/api/users/${id}`,
+      `https://api-timnha.onrender.com/api/users/${id}`,
       config
     );
     dispatch({
