@@ -29,7 +29,7 @@ export const getOrderList = () => async (dispatch, getState) => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.get(`http://localhost:3443/api/orders`, config);
+    const res = await axios.get(`https://api-timnha.onrender.com/api/orders`, config);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
@@ -59,7 +59,7 @@ export const getOrderDetail = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.get(
-      `http://localhost:3443/api/orders/${id}`,
+      `https://api-timnha.onrender.com/api/orders/${id}`,
       config
     );
     dispatch({
@@ -90,7 +90,7 @@ export const updateOrder = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.put(
-      `http://localhost:3443/api/orders/${id}`,
+      `https://api-timnha.onrender.com/api/orders/${id}`,
       {
         //
       },
@@ -124,7 +124,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.delete(
-      `http://localhost:3443/api/orders/${id}`,
+      `https://api-timnha.onrender.com/api/orders/${id}`,
       config
     );
     dispatch({
