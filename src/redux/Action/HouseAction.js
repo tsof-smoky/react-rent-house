@@ -32,7 +32,7 @@ export const getHouseList = () => async (dispatch, getState) => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.get(`http://localhost:3443/api/homes`, config);
+    const res = await axios.get(`https://api-timnha.onrender.com/api/homes`, config);
     dispatch({
       type: HOUSE_LIST_SUCCESS,
       payload: res.data.data,
@@ -61,7 +61,7 @@ export const getHouseDetail = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.get(
-      `http://localhost:3443/api/homes/${id}`,
+      `https://api-timnha.onrender.com/api/homes/${id}`,
       config
     );
     dispatch({
@@ -92,7 +92,7 @@ export const updateHouse = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.put(
-      `http://localhost:3443/api/homes/${id}`,
+      `https://api-timnha.onrender.com/api/homes/${id}`,
       {
         //
       },
@@ -126,7 +126,7 @@ export const createHouse = () => async (dispatch, getState) => {
       },
     };
     const res = await axios.post(
-      `http://localhost:3443/api/homes/`,
+      `https://api-timnha.onrender.com/api/homes/`,
       {
         //
       },
@@ -160,7 +160,7 @@ export const deleteHouse = (id) => async (dispatch, getState) => {
       },
     };
     const res = await axios.delete(
-      `http://localhost:3443/api/homes/${id}`,
+      `https://api-timnha.onrender.com/api/homes/${id}`,
       config
     );
     dispatch({
