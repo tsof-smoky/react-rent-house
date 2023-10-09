@@ -22,7 +22,7 @@ export const createHouseBooking =
         },
       };
       const res = await axios.post(
-        `http://localhost:3443/api/users/bookHome`,
+        `https://api-timnha.onrender.com/api/users/bookHome`,
         {
           email,
           fullName,
