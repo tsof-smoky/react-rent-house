@@ -21,10 +21,6 @@ function AdminLayout({ children }) {
       link: "/house",
     },
     {
-      title: "Quản lý yêu cầu xem phòng ",
-      link: "/housebooking",
-    },
-    {
       title: "Quản lý yêu cầu tìm bạn cùng phòng",
       link: "/order",
     },

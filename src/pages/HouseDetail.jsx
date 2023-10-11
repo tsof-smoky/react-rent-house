@@ -1,18 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faVectorSquare,
   faBed,
-  faBath,
   faCompass,
   faCouch,
   faLocationArrow,
-  faFileLines,
-  faCircleHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import HouseCard from "../components/HouseCard";
 import { getHouseDetail, getHouseList } from "../redux/Action/HouseAction";
@@ -21,8 +19,13 @@ import { createHouseBooking } from "../redux/Action/HouseBookingAction";
 export default function HouseDetail() {
   const { houseId } = useParams();
   const dispatch = useDispatch();
+  const emailRef = useRef();
+  const fullNameRef = useRef();
+  const phoneRef = useRef();
+  const messageRef = useRef();
   const { house } = useSelector((state) => state.houseDetail);
   const { houses } = useSelector((state) => state.houseList);
+  const { message, error } = useSelector((state) => state.houseBookingCreate);
   const [houseList, setHouseList] = useState([]);
   const [houseDetail, setHouseDetail] = useState({});
   const [input, setInput] = useState({
@@ -37,25 +40,48 @@ export default function HouseDetail() {
     if (!houses) {
       dispatch(getHouseList());
     }
-  }, []);
+  }, [houseId]);
 
   useEffect(() => {
     if (houses) {
-      setHouseList(houses.filter((el) => el._id !== houseId).slice(0, 3));
+      const randomNum = Math.random() * (houses?.length - 3);
+      setHouseList(houses.slice(randomNum, randomNum + 3));
     }
-  }, [houses]);
+  }, [houses, houseId]);
 
   useEffect(() => {
     if (house) {
-      console.log(house);
       setHouseDetail(house);
     }
   }, [house]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (message) {
+      toast.success(message);
+      setInput({
+        email: "",
+        fullName: "",
+        phone: "",
+        message: "",
+      });
+      emailRef.current.value = "";
+      fullNameRef.current.value = "";
+      phoneRef.current.value = "";
+      messageRef.current.value = "";
+    }
+  }, [error, message]);
 
   const handleChangeInput = (e) => {
     setInput((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+  };
+
+  const handleOpenImgModal = () => {
+    document.getElementById("my_modal_2").showModal();
   };
 
   const handleBookHome = () => {
@@ -72,20 +98,27 @@ export default function HouseDetail() {
 
   return (
     <div>
+      <ToastContainer autoClose={3000} />
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Toàn bộ ảnh</h3>
+          <div>
+            {houseDetail.picture?.map(({ fileLink }, index) => (
+              <img src={fileLink} key={index} alt="" className="my-[15px]" />
+            ))}
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <div className="grid grid-cols-12 gap-10 px-[100px] my-[50px]">
         <div className="col-span-7">
-          <img src={houseDetail.pictureLink} alt="" className="w-full" />
-          {/* <div className="grid grid-cols-3 gap-5 mt-[20px]">
-            <div>
-              <img src="/images/house-img.png" alt="" />
-            </div>
-            <div>
-              <img src="/images/house-img.png" alt="" />
-            </div>
-            <div>
-              <img src="/images/house-img.png" alt="" />
-            </div>
-          </div> */}
+          <img
+            src={houseDetail.picture && houseDetail.picture[0].fileLink}
+            alt=""
+            className="max-h-[1000px] mx-auto"
+          />
         </div>
         <div className="col-span-5">
           <div className="bg-[#E1F2FF] p-[30px]">
@@ -95,6 +128,7 @@ export default function HouseDetail() {
               placeholder="Họ tên"
               className="input input-bordered w-full mt-[30px]"
               name="fullName"
+              ref={fullNameRef}
               onChange={handleChangeInput}
             />
             <input
@@ -102,6 +136,7 @@ export default function HouseDetail() {
               placeholder="Số điện thoại"
               className="input input-bordered w-full mt-[20px]"
               name="phone"
+              ref={phoneRef}
               onChange={handleChangeInput}
             />{" "}
             <input
@@ -109,12 +144,14 @@ export default function HouseDetail() {
               placeholder="Email"
               className="input input-bordered w-full mt-[20px]"
               name="email"
+              ref={emailRef}
               onChange={handleChangeInput}
             />{" "}
             <textarea
               className="textarea textarea-bordered w-full mt-[20px]"
               placeholder="Lời nhắn"
               name="message"
+              ref={messageRef}
               onChange={handleChangeInput}
             ></textarea>
             <button
@@ -124,6 +161,12 @@ export default function HouseDetail() {
               GỬI NGAY
             </button>
           </div>
+          <button
+            className="btn bg-[#FBDDDB] w-full mt-[50px] rounded-[20px]"
+            onClick={handleOpenImgModal}
+          >
+            XEM TOÀN BỘ ẢNH
+          </button>
         </div>
       </div>
       <div className="bg-[#F5F5F5] px-[100px] py-[20px]">
@@ -134,23 +177,9 @@ export default function HouseDetail() {
                 <div className="flex items-center mr-[40px]">
                   <FontAwesomeIcon
                     className="text-[25px] mr-[10px]"
-                    icon={faVectorSquare}
-                  />
-                  null
-                </div>
-                <div className="flex items-center mr-[40px]">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
                     icon={faBed}
                   />
                   {houseDetail.type}
-                </div>
-                <div className="flex items-center mr-[40px]">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faBath}
-                  />
-                  null
                 </div>
                 <div className="flex items-center">
                   <FontAwesomeIcon
@@ -168,9 +197,7 @@ export default function HouseDetail() {
               <div className="text-[30px] font-semibold">
                 {houseDetail.name}
               </div>
-              <div>Diện tích: null</div>
               <div>Giá thuê: {houseDetail.price}đ/tháng</div>
-              <div>Cọc: {houseDetail.deposit}</div>
               <div>
                 Nội thất:{" "}
                 {houseDetail.furniture === 0
@@ -183,19 +210,6 @@ export default function HouseDetail() {
               {houseDetail.description?.split("\n").map((line, index) => (
                 <div key={index}>{line}</div>
               ))}
-              {/* Tiện ích tại Vinhomes Grand Park “Một bước chân ngàn tiện ích”:
-              <ul className="list-disc ml-[30px]">
-                <li>Phí quản lý 8.800đ /m2</li>
-                <li>Gởi xe 1.250.000đ/oto – 150.000đ/xe máy</li>
-                <li>Phí điện, nước được niêm yết theo giá của Nhà nước.</li>
-                <li>Tầng hầm giữ xe (bao gồm tầng hầm xe máy B1, ô tô B2)</li>
-                <li>Hồ bơi, sân bóng đá, bóng bàn, bóng chuyền,…</li>
-                <li>Đại công viên 36ha</li>
-                <li>Hệ thống siêu thị, cà phê tại Shophouse</li>
-                <li>Trường học liên cấp Vinschool</li>
-                <li>Trung tâm thương mại Vincom Mega Mall rộng 5.000 m2</li>
-                <li>Chợ đêm Vinhomes Grand Park.</li>
-              </ul> */}
             </div>
           </div>
 
@@ -204,16 +218,6 @@ export default function HouseDetail() {
               <p className="font-bold text-[20px] mb-[20px]">
                 ĐẶC ĐIỂM BẤT ĐỘNG SẢN
               </p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faVectorSquare}
-                  />
-                  Diện tích
-                </div>
-                <p className="text-blue-600">null</p>
-              </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -224,17 +228,6 @@ export default function HouseDetail() {
                   Phòng ngủ
                 </div>
                 <p className="text-blue-600">{houseDetail.type}</p>
-              </div>
-              <hr className="my-[10px]" />
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faBath}
-                  />
-                  Phòng tắm/WC
-                </div>
-                <p className="text-blue-600">null</p>
               </div>
               <hr className="my-[10px]" />
               <div className="flex items-center justify-between">
@@ -265,39 +258,6 @@ export default function HouseDetail() {
                 </div>
                 <p className="text-blue-600">{houseDetail.homeDirection}</p>
               </div>
-              <hr className="my-[10px]" />
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faLocationArrow}
-                  />
-                  Hướng ban công
-                </div>
-                <p className="text-blue-600">{houseDetail.balconyDirection}</p>
-              </div>
-              <hr className="my-[10px]" />
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faFileLines}
-                  />
-                  Pháp lý
-                </div>
-                <p className="text-blue-600">{houseDetail.juridical}</p>
-              </div>
-              <hr className="my-[10px]" />
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="text-[25px] mr-[10px]"
-                    icon={faCircleHalfStroke}
-                  />
-                  Đặc điểm
-                </div>
-                <p className="text-blue-600">{houseDetail.feature}</p>
-              </div>
             </div>
           </div>
         </div>
@@ -311,7 +271,7 @@ export default function HouseDetail() {
                 area="null"
                 price={house.price}
                 furniture={house.furniture}
-                pictureLink={house.pictureLink}
+                picture={house.picture}
                 key={index}
               />
             ))}

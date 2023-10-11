@@ -17,6 +17,15 @@ import {
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
+  USER_FORGOT_PASSWORD_FAIL,
+  USER_FORGOT_PASSWORD_REQUEST,
+  USER_FORGOT_PASSWORD_SUCCESS,
+  USER_RESET_PASSWORD_FAIL,
+  USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_SUCCESS,
+  USER_SEND_FEEDBACK_FAIL,
+  USER_SEND_FEEDBACK_REQUEST,
+  USER_SEND_FEEDBACK_SUCCESS,
 } from "../Constant/UserConstant";
 
 export const login = (email, password) => async (dispatch) => {
@@ -180,3 +189,104 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_FORGOT_PASSWORD_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.post(
+      `http://localhost:3443/api/users/reset-password`,
+      {
+        email,
+      },
+      config
+    );
+    dispatch({
+      type: USER_FORGOT_PASSWORD_SUCCESS,
+      payload: res.data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_FORGOT_PASSWORD_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
+};
+
+export const resetPassword =
+  (email, resetToken, password, passwordConfirm) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_RESET_PASSWORD_REQUEST,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.patch(
+        `http://localhost:3443/api/users/reset-password`,
+        {
+          email,
+          resetToken,
+          password,
+          passwordConfirm,
+        },
+        config
+      );
+      console.log(res);
+      dispatch({
+        type: USER_RESET_PASSWORD_SUCCESS,
+        payload: "Thiết lập mật khẩu thành công",
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_RESET_PASSWORD_FAIL,
+        payload: error?.response?.data?.message,
+      });
+    }
+  };
+
+export const sendFeedback =
+  (email, fullName, phone, message) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: USER_SEND_FEEDBACK_REQUEST,
+      });
+      const {
+        userLogin: { user },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.post(
+        `http://localhost:3443/api/users/feedback`,
+        {
+          email,
+          fullName,
+          phone,
+          message,
+        },
+        config
+      );
+      dispatch({
+        type: USER_SEND_FEEDBACK_SUCCESS,
+        payload: res.data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_SEND_FEEDBACK_FAIL,
+        payload: error?.response?.data?.message,
+      });
+    }
+  };

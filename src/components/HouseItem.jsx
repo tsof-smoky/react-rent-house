@@ -12,7 +12,11 @@ export default function HouseItem(props) {
     <Link to={`/house/${props.id}`}>
       <div className="grid grid-cols-12 gap-20 p-[30px] border border-black bg-white my-[30px]">
         <div className="col-span-5">
-          <img src={props.pictureLink} alt="" className="h-[200px]" />
+          <img
+            src={props.picture && props.picture[0].fileLink}
+            alt=""
+            className="h-[300px] mx-auto"
+          />
         </div>
         <div className="col-span-7 text-left flex flex-col justify-between">
           <div>
@@ -21,30 +25,9 @@ export default function HouseItem(props) {
               <div className="flex items-center mr-[40px]">
                 <FontAwesomeIcon
                   className="text-[25px] mr-[10px]"
-                  icon={faVectorSquare}
-                />
-                63.6 m2
-              </div>
-              <div className="flex items-center mr-[40px]">
-                <FontAwesomeIcon
-                  className="text-[25px] mr-[10px]"
                   icon={faBed}
                 />
                 {props.type}
-              </div>
-              <div className="flex items-center mr-[40px]">
-                <FontAwesomeIcon
-                  className="text-[25px] mr-[10px]"
-                  icon={faBath}
-                />
-                2WC
-              </div>
-              <div className="flex items-center">
-                <FontAwesomeIcon
-                  className="text-[25px] mr-[10px]"
-                  icon={faCompass}
-                />
-                {props.homeDirection}
               </div>
             </div>
           </div>

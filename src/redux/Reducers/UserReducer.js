@@ -14,6 +14,15 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
+  USER_FORGOT_PASSWORD_FAIL,
+  USER_FORGOT_PASSWORD_REQUEST,
+  USER_FORGOT_PASSWORD_SUCCESS,
+  USER_RESET_PASSWORD_FAIL,
+  USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_SUCCESS,
+  USER_SEND_FEEDBACK_FAIL,
+  USER_SEND_FEEDBACK_REQUEST,
+  USER_SEND_FEEDBACK_SUCCESS,
 } from "../Constant/UserConstant";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -78,6 +87,45 @@ export const userUpdateReducer = (state = {}, action) => {
       return { user: action.payload, loading: false, error: null };
     case USER_UPDATE_FAIL:
       return { user: null, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
+
+export const userForgotPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_FORGOT_PASSWORD_REQUEST:
+      return { message: null, error: null };
+    case USER_FORGOT_PASSWORD_SUCCESS:
+      return { message: action.payload, error: null };
+    case USER_FORGOT_PASSWORD_FAIL:
+      return { message: null, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userResetPasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_RESET_PASSWORD_REQUEST:
+      return { message: null, error: null };
+    case USER_RESET_PASSWORD_SUCCESS:
+      return { message: action.payload, error: null };
+    case USER_RESET_PASSWORD_FAIL:
+      return { message: null, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userSendFeedbackReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_SEND_FEEDBACK_REQUEST:
+      return { message: null, error: null };
+    case USER_SEND_FEEDBACK_SUCCESS:
+      return { message: action.payload, error: null };
+    case USER_SEND_FEEDBACK_FAIL:
+      return { message: null, error: action.payload };
     default:
       return state;
   }
