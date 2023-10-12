@@ -9,19 +9,14 @@ import Support from "../pages/Support";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import forgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 import UserList from "../pages/Admin/UserList";
 import HouseList from "../pages/Admin/HouseList";
-import HouseBookingList from "../pages/Admin/HouseBookingList";
 import OrderList from "../pages/Admin/OrderList";
 
 const adminRoutes = [
   { path: "/", component: UserList, layout: AdminLayout },
   { path: "/house", component: HouseList, layout: AdminLayout },
-  {
-    path: "/housebooking",
-    component: HouseBookingList,
-    layout: AdminLayout,
-  },
   {
     path: "/order",
     component: OrderList,
@@ -39,6 +34,11 @@ const publicRoutes = [
   { path: "/", component: Login, layout: LoginLayout },
   { path: "/register", component: Register, layout: LoginLayout },
   { path: "/forgotpassword", component: forgotPassword, layout: LoginLayout },
+  {
+    path: "/resetpassword/:email/:resetToken",
+    component: ResetPassword,
+    layout: LoginLayout,
+  },
 ];
 
 export { adminRoutes, userRoutes, publicRoutes };

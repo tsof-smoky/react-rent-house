@@ -45,7 +45,7 @@ export default function Home() {
                 price={house.price}
                 furniture={house.furniture}
                 key={index}
-                pictureLink={house.pictureLink}
+                picture={house.picture}
               />
             ))}
           </div>

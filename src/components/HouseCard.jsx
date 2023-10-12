@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 export default function HouseCard(props) {
   return (
     <Link to={`/house/${props.id}`}>
-      <div className="card card-compact border-solid border border-black rounded-none">
+      <div className="card card-compact border-solid border border-black rounded-none pt-[20px]">
         <figure>
-          <img src={props.pictureLink} alt="" className="h-[150px]" />
+          <img
+            src={props.picture && props.picture[0].fileLink}
+            alt=""
+            className="h-[300px]"
+          />
         </figure>
         <div className="card-body">
           <p className="text-[30px]">{props.name}</p>
           <div className="text-left mt-[20px]">
-            <p>Diện tích: {props.area}</p>
             <p>Giá thuê: {props.price}đ/tháng</p>
             <p>
               Nội thất:{" "}

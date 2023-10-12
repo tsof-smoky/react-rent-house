@@ -11,6 +11,9 @@ import {
   userListReducer,
   userUpdateReducer,
   userDeleteReducer,
+  userForgotPasswordReducer,
+  userResetPasswordReducer,
+  userSendFeedbackReducer,
 } from "./Reducers/UserReducer";
 import {
   houseListReducer,
@@ -28,20 +31,27 @@ import {
 import { houseBookingCreateReducer } from "./Reducers/HouseBookingReducer";
 
 const reducer = combineReducers({
+  //user
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userList: userListReducer,
   userUpdate: userUpdateReducer,
   userDelete: userDeleteReducer,
+  userForgotPassword: userForgotPasswordReducer,
+  userResetPassword: userResetPasswordReducer,
+  userSendFeedback: userSendFeedbackReducer,
+  //house
   houseList: houseListReducer,
   houseDetail: houseDetailReducer,
   houseCreate: houseCreateReducer,
   houseUpdate: houseUpdateReducer,
   houseDelete: houseDeleteReducer,
+  //order
   orderList: orderListReducer,
   orderDetail: orderDetailReducer,
   orderUpdate: orderUpdateReducer,
   orderDelete: orderDeleteReducer,
+  //houseBooking
   houseBookingCreate: houseBookingCreateReducer,
 });
 

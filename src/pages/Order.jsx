@@ -1,14 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Order() {
   const [step, setStep] = useState(1);
-  const [gender, setGender] = useState("Giới tính");
+  const [input, setInput] = useState({
+    gender: "Nam",
+    currentPeopleNum: 1,
+    homeType: "Studio",
+    wantedPeopleNum: 1,
+    minFurniture: 0,
+    fullName: "",
+    identityFrontLink: "",
+    identityBackLink: "",
+    avatarLink: "",
+    priceMin: 4000000,
+    priceMax: 5000000,
+    dateOfBirth: "",
+  });
   const [birthDate, setBirthDate] = useState(new Date());
   const [frontCccd, setFrontCccd] = useState("");
   const [backCccd, setBackCccd] = useState("");
   const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    handleChangeDate(new Date());
+  }, []);
+
+  const handleChangeInput = (name) => (e) => {
+    setInput((prev) => {
+      return { ...prev, name: e.target.value };
+    });
+  };
+
+  const handleChangePrice = (e) => {
+    const prices = e.target.value.replaceAll("đ", "").split("-");
+    setInput((prev) => {
+      return { ...prev, priceMin: prices[0] * 1, priceMax: prices[1] * 1 };
+    });
+  };
+
+  const handleChangeDate = (date) => {
+    setBirthDate(date);
+    let objectDate = new Date(date);
+    let day = objectDate.getDate();
+    let month = objectDate.getMonth();
+    let year = objectDate.getFullYear();
+
+    input.dateOfBirth = `${day}/${month + 1}/${year}`;
+  };
 
   const fileToDataUri = (file) =>
     new Promise((resolve, reject) => {
@@ -48,42 +88,76 @@ export default function Order() {
           <div className="grid grid-cols-2 bg-[#CFEAE1] my-[30px] py-[50px] px-[100px] gap-x-[200px] gap-y-[20px] rounded-[20px]">
             <div className="flex justify-between items-center">
               Giới tính
-              <select className="select select-primary" value="">
+              <select
+                className="select select-primary"
+                onChange={handleChangeInput("gender")}
+              >
                 <option>Nam</option>
                 <option>Nữ</option>
-                <option>Khác</option>
+                <option>Nam và Nữ</option>
               </select>
             </div>
             <div className="flex justify-between items-center">
               Đã có bao nhiêu người
-              <select className="select select-primary" value="">
-                {[...Array(8)].map((el, i) => (
-                  <option>{i + 1}</option>
+              <select
+                className="select select-primary"
+                onChange={handleChangeInput("currentPeopleNum")}
+              >
+                {[...Array(6)].map((el, i) => (
+                  <option key={i} value={i + 1}>
+                    {i + 1}
+                  </option>
                 ))}
               </select>
             </div>
             <div className="flex justify-between items-center">
               Số lượng người
-              <select className="select select-primary" value="">
-                {[...Array(8)].map((el, i) => (
-                  <option>{i + 1}</option>
+              <select
+                className="select select-primary"
+                onChange={handleChangeInput("wantedPeopleNum")}
+              >
+                {[...Array(6)].map((el, i) => (
+                  <option key={i} value={i + 1}>
+                    {i + 1}
+                  </option>
                 ))}
               </select>
             </div>
             <div className="flex justify-between items-center">
               Khoảng giá
-              <select className="select select-primary" value=""></select>
+              <select
+                className="select select-primary"
+                onChange={handleChangePrice}
+              >
+                {[...Array(6)].map((el, i) => (
+                  <option key={i}>{`${(i + 4) * 1000000}đ-${
+                    (i + 5) * 1000000
+                  }đ`}</option>
+                ))}
+                <option>{"10000000đ-50000000đ"}</option>
+              </select>
             </div>
             <div className="flex justify-between items-center">
               Loại căn
-              <select className="select select-primary" value=""></select>
+              <select
+                className="select select-primary"
+                onChange={handleChangeInput("homeType")}
+              >
+                <option>Studio</option>
+                <option>1 phòng ngủ</option>
+                <option>2 phòng ngủ</option>
+                <option>3 phòng ngủ</option>
+              </select>
             </div>
             <div className="flex justify-between items-center">
               Nội thất tối thiểu
-              <select className="select select-primary" value="">
-                <option>Không nội thất</option>
-                <option>Nội thất một phần</option>
-                <option>Nội thất đầy đủ</option>
+              <select
+                className="select select-primary"
+                onChange={handleChangeInput("minFurniture")}
+              >
+                <option value={0}>Không nội thất</option>
+                <option value={1}>Nội thất một phần</option>
+                <option value={2}>Nội thất đầy đủ</option>
               </select>
             </div>
           </div>
@@ -107,21 +181,12 @@ export default function Order() {
                 type="text"
                 placeholder="Họ và tên"
                 className="input input-bordered w-full mt-[50px] border-black bg-[#FFEAEA]"
+                onChange={handleChangeInput("fullName")}
               />
-              <select
-                className="select select-primary w-full my-[50px] border-black bg-[#FFEAEA]"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option disabled>Giới tính</option>
-                <option>Nam</option>
-                <option>Nữ</option>
-                <option>Khác</option>
-              </select>
-              <div className="w-full border border-black rounded-[10px] text-left mb-[50px] bg-[#FFEAEA]">
+              <div className="w-full border border-black rounded-[10px] text-left mb-[50px] mt-[30px] bg-[#FFEAEA]">
                 <DatePicker
                   selected={birthDate}
-                  onChange={(date) => setBirthDate(date)}
+                  onChange={handleChangeDate}
                   className="w-full text-left rounded-[10px] py-[10px] pl-[20px]  bg-[#FFEAEA]"
                 />
               </div>
