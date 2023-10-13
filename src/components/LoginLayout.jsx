@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { Analytics } from '@vercel/analytics/react';
 
 export default function LoginLayout({ children }) {
   return (
+    <>
+    <Analytics />
     <div className="w-[1000px] my-[100px] mx-auto shadow-xl text-center p-[30px] bg-[#FFFEF5]">
       <img className="h-[100px] mx-auto" src="images/logo.png" alt="" />
       <div className="mt-[20px]">
@@ -14,5 +17,6 @@ export default function LoginLayout({ children }) {
         {children}
       </div>
     </div>
+    </>
   );
 }

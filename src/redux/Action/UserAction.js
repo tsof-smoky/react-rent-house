@@ -201,7 +201,7 @@ export const forgotPassword = (email) => async (dispatch) => {
       },
     };
     const res = await axios.post(
-      `http://localhost:3443/api/users/reset-password`,
+      `https://api-timnha.onrender.com/api/users/reset-password`,
       {
         email,
       },
@@ -231,7 +231,7 @@ export const resetPassword =
         },
       };
       const res = await axios.patch(
-        `http://localhost:3443/api/users/reset-password`,
+        `https://api-timnha.onrender.com/api/users/reset-password`,
         {
           email,
           resetToken,
@@ -270,7 +270,7 @@ export const sendFeedback =
         },
       };
       const res = await axios.post(
-        `http://localhost:3443/api/users/feedback`,
+        `https://api-timnha.onrender.com/api/users/feedback`,
         {
           email,
           fullName,

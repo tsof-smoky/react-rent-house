@@ -7,6 +7,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react/headless";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Analytics } from '@vercel/analytics/react';
 
 import { logout, sendFeedback } from "../redux/Action/UserAction";
 
@@ -81,6 +82,7 @@ function DefaultLayout({ children }) {
   ];
   return (
     <>
+      <Analytics />
       <ToastContainer autoClose={3000} />
       <div className="bg-[#fff5bc] h-[100px] flex items-center justify-between px-[100px] fixed w-full min-w-[1200px] z-50">
         <Link to="/">
