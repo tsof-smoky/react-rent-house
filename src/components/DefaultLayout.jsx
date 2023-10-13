@@ -82,7 +82,7 @@ function DefaultLayout({ children }) {
   ];
   return (
     <>
-      <Analytics />
+
       <ToastContainer autoClose={3000} />
       <div className="bg-[#fff5bc] h-[100px] flex items-center justify-between px-[100px] fixed w-full min-w-[1200px] z-50">
         <Link to="/">
@@ -142,6 +142,7 @@ function DefaultLayout({ children }) {
           </Tippy>
         </div>
       </div>
+      <Analytics mode = {'development'}/>
       <div className="pt-[100px]">{children}</div>
       <div className="bg-[url('../public/images/footer-img.png')] grid grid-cols-2 pt-[50px]">
         <div></div>
