@@ -23,15 +23,13 @@ const adminRoutes = [
     layout: AdminLayout,
   },
 ];
-const userRoutes = [
+const publicRoutes = [
   { path: "/", component: Home },
   { path: "/house", component: House },
   { path: "/house/:houseId", component: HouseDetail },
   { path: "/order", component: Order },
   { path: "/support", component: Support },
-];
-const publicRoutes = [
-  { path: "/", component: Login, layout: LoginLayout },
+  { path: "/login", component: Login, layout: LoginLayout },
   { path: "/register", component: Register, layout: LoginLayout },
   { path: "/forgotpassword", component: forgotPassword, layout: LoginLayout },
   {
@@ -39,6 +37,13 @@ const publicRoutes = [
     component: ResetPassword,
     layout: LoginLayout,
   },
+];
+
+const userRoutes = [
+  { path: "/", component: Home },
+  { path: "/house", component: House },
+  { path: "/house/:houseId", component: HouseDetail },
+  { path: "/order", component: Order },
 ];
 
 export { adminRoutes, userRoutes, publicRoutes };

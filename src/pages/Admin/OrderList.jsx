@@ -12,6 +12,14 @@ import {
   updateOrder,
   deleteOrder,
 } from "../../redux/Action/OrderAction";
+
+import ModalContent, {
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "../../components/Modal/ModalContent";
+import Button from "../../components/Button";
+
 export default function OrderList() {
   const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orderList);
@@ -24,8 +32,6 @@ export default function OrderList() {
   }, []);
 
   const handeOpenShowOrderModal = () => {};
-
-  const handleOpenEditOrderModal = () => {};
 
   const handleOpenDeleteOrderModal = () => {};
 
@@ -44,10 +50,7 @@ export default function OrderList() {
               Loại căn
             </th>
             <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-              Vai trò
-            </th>
-            <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
-              Chỉnh sửa
+              Xem chi tiết
             </th>
             <th className="w-[10%] border text-center py-[15px] px-2 font-semibold text-sm">
               Xóa
@@ -78,17 +81,6 @@ export default function OrderList() {
                       onClick={handeOpenShowOrderModal}
                     >
                       <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </div>
-                  </div>
-                </td>
-                <td className="w-[10%] border text-center items-center py-[15px] px-2 text-sm">
-                  <div className="w-full flex justify-center ">
-                    <div
-                      className="bg-sky-500 cursor-pointer w-[50px] h-[36px] flex items-center justify-center rounded-full text-white"
-                      data-index={index}
-                      onClick={handleOpenEditOrderModal}
-                    >
-                      <FontAwesomeIcon icon={faPenToSquare} />
                     </div>
                   </div>
                 </td>

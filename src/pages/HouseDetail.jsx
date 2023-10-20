@@ -23,6 +23,7 @@ export default function HouseDetail() {
   const fullNameRef = useRef();
   const phoneRef = useRef();
   const messageRef = useRef();
+  const user = useSelector((state) => state.userLogin)?.user?.data;
   const { house } = useSelector((state) => state.houseDetail);
   const { houses } = useSelector((state) => state.houseList);
   const { message, error } = useSelector((state) => state.houseBookingCreate);
@@ -85,15 +86,17 @@ export default function HouseDetail() {
   };
 
   const handleBookHome = () => {
-    dispatch(
-      createHouseBooking(
-        input.email,
-        input.fullName,
-        input.phone,
-        input.message,
-        houseId
-      )
-    );
+    if (user)
+      dispatch(
+        createHouseBooking(
+          input.email,
+          input.fullName,
+          input.phone,
+          input.message,
+          houseId
+        )
+      );
+    else window.location.href = "/login";
   };
 
   return (
@@ -206,6 +209,7 @@ export default function HouseDetail() {
                   ? "Một phần"
                   : "Đầy đủ"}
               </div>
+              <div>Lưu ý: {houseDetail.note}</div>
               <hr className="bg-black h-[2px] my-[10px]" />
               {houseDetail.description?.split("\n").map((line, index) => (
                 <div key={index}>{line}</div>

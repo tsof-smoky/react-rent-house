@@ -12,6 +12,9 @@ import {
   ORDER_UPDATE_FAIL,
   ORDER_UPDATE_REQUEST,
   ORDER_UPDATE_SUCCESS,
+  ORDER_CREATE_FAIL,
+  ORDER_CREATE_REQUEST,
+  ORDER_CREATE_SUCCESS,
 } from "../Constant/OrderConstant";
 
 export const getOrderList = () => async (dispatch, getState) => {
@@ -74,6 +77,44 @@ export const getOrderDetail = (id) => async (dispatch, getState) => {
   }
 };
 
+export const createOrder = (input) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_CREATE_REQUEST,
+    });
+    const {
+      userLogin: { user },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const formData = new FormData();
+    for (const property in input) {
+      formData.append(property, input[property]);
+    }
+
+    const res = await axios.post(
+      `http://localhost:3443/api/users/order`,
+      formData,
+      config
+    );
+    dispatch({
+      type: ORDER_CREATE_SUCCESS,
+      payload: res.data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_CREATE_FAIL,
+      payload: error?.response?.data?.message,
+    });
+  }
+};
+
 export const updateOrder = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -85,7 +126,7 @@ export const updateOrder = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -119,7 +160,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
