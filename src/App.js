@@ -1,6 +1,11 @@
 import "./App.css";
 import { Fragment } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import DefaultLayout from "./components/DefaultLayout";
 import { publicRoutes, userRoutes, adminRoutes } from "./routes";
 import ScrollToTop from "./components/ScrollToTop";
@@ -45,6 +50,7 @@ function App() {
                 ? Render(adminRoutes)
                 : Render(userRoutes)
               : Render(publicRoutes)}
+            <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </Router>
       </div>

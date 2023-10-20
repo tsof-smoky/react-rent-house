@@ -28,7 +28,6 @@ export const getHouseList = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -56,7 +55,6 @@ export const getHouseDetail = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -87,7 +85,7 @@ export const updateHouse = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -110,7 +108,7 @@ export const updateHouse = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createHouse = () => async (dispatch, getState) => {
+export const createHouse = (input) => async (dispatch, getState) => {
   try {
     dispatch({
       type: HOUSE_CREATE_REQUEST,
@@ -121,15 +119,13 @@ export const createHouse = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
     const res = await axios.post(
       `http://localhost:3443/api/homes/`,
-      {
-        //
-      },
+      {},
       config
     );
     dispatch({
@@ -155,7 +151,7 @@ export const deleteHouse = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };

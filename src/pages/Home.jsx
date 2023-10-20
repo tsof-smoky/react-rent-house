@@ -17,7 +17,8 @@ export default function Home() {
 
   useEffect(() => {
     if (houses) {
-      setHouseList(houses.slice(0, 3));
+      const randomNum = Math.random() * (houses?.length - 3);
+      setHouseList(houses.slice(randomNum, randomNum + 3));
     }
   }, [houses]);
 

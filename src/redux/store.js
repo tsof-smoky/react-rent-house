@@ -25,6 +25,7 @@ import {
 import {
   orderListReducer,
   orderDetailReducer,
+  orderCreateReducer,
   orderUpdateReducer,
   orderDeleteReducer,
 } from "./Reducers/OrderReducer";
@@ -49,6 +50,7 @@ const reducer = combineReducers({
   //order
   orderList: orderListReducer,
   orderDetail: orderDetailReducer,
+  orderCreate: orderCreateReducer,
   orderUpdate: orderUpdateReducer,
   orderDelete: orderDeleteReducer,
   //houseBooking

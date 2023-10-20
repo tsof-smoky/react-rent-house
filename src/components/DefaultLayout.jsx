@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react/headless";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +16,7 @@ function DefaultLayout({ children }) {
   const fullNameRef = useRef();
   const phoneRef = useRef();
   const messageRef = useRef();
-  const { name } = useSelector((state) => state.userLogin).user.data;
+  const user = useSelector((state) => state.userLogin)?.user?.data;
   const { message, error } = useSelector((state) => state.userSendFeedback);
   const [input, setInput] = useState({
     email: "",
@@ -110,31 +109,48 @@ function DefaultLayout({ children }) {
             placement="bottom-end"
             theme="light-border"
             trigger="click"
-            render={(attrs) => (
-              <div className="rounded-xl px-[10px] py-[20px] flex flex-col shadow-4xl bg-white">
-                <div className="flex">
-                  <img
-                    className="rounded-full h-[30px]"
-                    src="/images/user-img.png"
-                    alt=""
-                  />
-                  <div className="font-semibold italic text-[18px] ml-[10px]">
-                    {name}
+            render={(attrs) => {
+              if (user)
+                return (
+                  <div className="rounded-xl px-[10px] py-[20px] flex flex-col shadow-4xl bg-white">
+                    <div className="flex">
+                      <img
+                        className="rounded-full h-[30px]"
+                        src="/images/user-img.png"
+                        alt=""
+                      />
+                      <div className="font-semibold italic text-[18px] ml-[10px]">
+                        {user.name}
+                      </div>
+                    </div>
+                    <hr className="mt-[15px]" />
+                    <div tabIndex="-1" className="text-[16px]">
+                      <div
+                        className="flex items-center hover:bg-[#cac9c9] p-[10px] rounded-lg"
+                        onClick={handleLogout}
+                      >
+                        <button className="rounded-none bg-inherit hover:bg-[#cac9c9] text-black">
+                          Log out
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <hr className="mt-[15px]" />
-                <div tabIndex="-1" className="text-[16px]">
-                  <div
-                    className="flex items-center hover:bg-[#cac9c9] p-[10px] rounded-lg"
-                    onClick={handleLogout}
-                  >
-                    <button className="rounded-none bg-inherit hover:bg-[#cac9c9] text-black">
-                      Log out
-                    </button>
+                );
+              else
+                return (
+                  <div className="rounded-xl px-[10px] py-[20px] flex flex-col shadow-4xl bg-white">
+                    <Link to="/login">
+                      <div tabIndex="-1" className="text-[16px]">
+                        <div className="flex items-center hover:bg-[#cac9c9] p-[10px] rounded-lg">
+                          <button className="rounded-none bg-inherit hover:bg-[#cac9c9] text-black">
+                            Log in
+                          </button>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
-                </div>
-              </div>
-            )}
+                );
+            }}
           >
             <FontAwesomeIcon icon={faUser} />
           </Tippy>

@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { createOrder } from "../redux/Action/OrderAction";
 
 export default function Order() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userLogin)?.user?.data;
+  const { message, error } = useSelector((state) => state.orderCreate);
   const [step, setStep] = useState(1);
   const [input, setInput] = useState({
     gender: "Nam",
@@ -11,9 +19,9 @@ export default function Order() {
     wantedPeopleNum: 1,
     minFurniture: 0,
     fullName: "",
-    identityFrontLink: "",
-    identityBackLink: "",
-    avatarLink: "",
+    identityFront: "",
+    identityBack: "",
+    avatar: "",
     priceMin: 4000000,
     priceMax: 5000000,
     dateOfBirth: "",
@@ -26,6 +34,34 @@ export default function Order() {
   useEffect(() => {
     handleChangeDate(new Date());
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (message) {
+      toast.success(message);
+      setInput({
+        gender: "Nam",
+        currentPeopleNum: 1,
+        homeType: "Studio",
+        wantedPeopleNum: 1,
+        minFurniture: 0,
+        fullName: "",
+        identityFront: "",
+        identityBack: "",
+        avatar: "",
+        priceMin: 4000000,
+        priceMax: 5000000,
+        dateOfBirth: "",
+      });
+      setStep(1);
+      handleChangeDate(new Date());
+      setAvatar("");
+      setFrontCccd("");
+      setBackCccd("");
+    }
+  }, [error, message]);
 
   const handleChangeInput = (name) => (e) => {
     setInput((prev) => {
@@ -40,14 +76,20 @@ export default function Order() {
     });
   };
 
+  const handleNextStep = () => {
+    if (user) setStep(2);
+    else window.location.href = "/login";
+  };
+
   const handleChangeDate = (date) => {
     setBirthDate(date);
     let objectDate = new Date(date);
     let day = objectDate.getDate();
     let month = objectDate.getMonth();
     let year = objectDate.getFullYear();
-
-    input.dateOfBirth = `${day}/${month + 1}/${year}`;
+    setInput((prev) => {
+      return { ...prev, dateOfBirth: `${day}/${month + 1}/${year}` };
+    });
   };
 
   const fileToDataUri = (file) =>
@@ -60,25 +102,39 @@ export default function Order() {
     });
 
   const handleUploadFrontCccd = (e) => {
-    if (e.target.files[0])
+    if (e.target.files[0]) {
+      setInput((prev) => {
+        return { ...prev, identityFront: e.target.files[0] };
+      });
       fileToDataUri(e.target.files[0]).then((url) => setFrontCccd(url));
-    else setFrontCccd("");
+    } else setFrontCccd("");
   };
 
   const handleUploadBackCccd = (e) => {
-    if (e.target.files[0])
+    if (e.target.files[0]) {
+      setInput((prev) => {
+        return { ...prev, identityBack: e.target.files[0] };
+      });
       fileToDataUri(e.target.files[0]).then((url) => setBackCccd(url));
-    else setBackCccd("");
+    } else setBackCccd("");
   };
 
   const handleUploadAvatar = (e) => {
-    if (e.target.files[0])
+    if (e.target.files[0]) {
+      setInput((prev) => {
+        return { ...prev, avatar: e.target.files[0] };
+      });
       fileToDataUri(e.target.files[0]).then((url) => setAvatar(url));
-    else setAvatar("");
+    } else setAvatar("");
+  };
+
+  const handleSubmit = () => {
+    dispatch(createOrder(input));
   };
 
   return (
     <div>
+      <ToastContainer autoClose={3000} />
       <img src="/images/order-img.png" alt="" />
       {step === 1 ? (
         <div className="mx-[100px] my-[50px]">
@@ -164,7 +220,7 @@ export default function Order() {
           <div className="text-right">
             <button
               className="btn bg-[#E3EFF8] rounded-[20px] px-[50px]"
-              onClick={() => setStep(2)}
+              onClick={handleNextStep}
             >
               Tiếp theo
             </button>
@@ -181,7 +237,10 @@ export default function Order() {
                 type="text"
                 placeholder="Họ và tên"
                 className="input input-bordered w-full mt-[50px] border-black bg-[#FFEAEA]"
-                onChange={handleChangeInput("fullName")}
+                value={input.fullName}
+                onChange={(e) =>
+                  setInput({ ...input, fullName: e.target.value })
+                }
               />
               <div className="w-full border border-black rounded-[10px] text-left mb-[50px] mt-[30px] bg-[#FFEAEA]">
                 <DatePicker
@@ -241,12 +300,9 @@ export default function Order() {
 
             <div className="text-right">
               <button
-                className="btn bg-[#E3EFF8] rounded-[20px] px-[30px] mr-[30px] "
-                onClick={() => setStep(1)}
+                className="btn bg-[#FFD700] rounded-[20px] px-[30px]"
+                onClick={handleSubmit}
               >
-                Quay lại
-              </button>
-              <button className="btn bg-[#FFD700] rounded-[20px] px-[30px]">
                 Hoàn thành
               </button>
             </div>

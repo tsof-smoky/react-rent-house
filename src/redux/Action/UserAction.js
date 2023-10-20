@@ -125,7 +125,7 @@ export const getUserList = () => async (dispatch, getState) => {
   }
 };
 
-export const updateUser = (id) => async (dispatch, getState) => {
+export const updateUser = (id, name) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_REQUEST,
@@ -136,14 +136,14 @@ export const updateUser = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
     const res = await axios.put(
       `http://localhost:3443/api/users/${id}`,
       {
-        //
+        name,
       },
       config
     );
@@ -170,7 +170,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json",
       },
     };
@@ -180,7 +180,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     );
     dispatch({
       type: USER_DELETE_SUCCESS,
-      payload: res.data.data,
+      payload: "Xóa người dùng thành công!",
     });
   } catch (error) {
     dispatch({
@@ -240,7 +240,6 @@ export const resetPassword =
         },
         config
       );
-      console.log(res);
       dispatch({
         type: USER_RESET_PASSWORD_SUCCESS,
         payload: "Thiết lập mật khẩu thành công",
@@ -265,7 +264,6 @@ export const sendFeedback =
 
       const config = {
         headers: {
-          Authorization: `Bearer ${user.accessToken}`,
           "Content-Type": "application/json",
         },
       };
