@@ -158,7 +158,7 @@ function DefaultLayout({ children }) {
           </Tippy>
         </div>
       </div>
-      <Analytics mode = {'production'}/>
+      {/* <Analytics mode = {'production'}/> */}
       <div className="pt-[100px]">{children}</div>
       <div className="bg-[url('../public/images/footer-img.png')] grid grid-cols-2 pt-[50px]">
         <div></div>

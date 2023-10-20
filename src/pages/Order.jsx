@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { createOrder } from "../redux/Action/OrderAction";
+import { payment } from "../redux/Action/PaymentAction";
 
 export default function Order() {
   const dispatch = useDispatch();
@@ -130,6 +131,10 @@ export default function Order() {
 
   const handleSubmit = () => {
     dispatch(createOrder(input));
+  };
+
+  const handlePayment = () => {
+    dispatch(payment(50000, ""));
   };
 
   return (
@@ -301,9 +306,9 @@ export default function Order() {
             <div className="text-right">
               <button
                 className="btn bg-[#FFD700] rounded-[20px] px-[30px]"
-                onClick={handleSubmit}
+                onClick={handlePayment}
               >
-                Hoàn thành
+                Thanh toán (50.000đ)
               </button>
             </div>
           </div>
