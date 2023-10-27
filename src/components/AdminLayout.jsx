@@ -13,8 +13,12 @@ function AdminLayout({ children }) {
   const [show, setShow] = useState(true);
   const feedData = [
     {
-      title: "Quản lý người dùng",
+      title: "Thống kê",
       link: "/",
+    },
+    {
+      title: "Quản lý người dùng",
+      link: "/user",
     },
     {
       title: "Quản lý phòng",

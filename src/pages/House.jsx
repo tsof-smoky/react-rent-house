@@ -19,6 +19,8 @@ export default function House() {
         minFurniture: "0",
     });
 
+    const [sort, setSort] = useState("0");
+
     useEffect(() => {
         if (!houses) {
             dispatch(getHouseList());
@@ -41,6 +43,17 @@ export default function House() {
         }
     }, [houses, filter.homeType, filter.building, filter.priceMin, filter.priceMax, filter.minFurniture]);
 
+    const handleSort = (type) => (a, b) => {
+        switch (type) {
+          case "1":
+            return a.price - b.price;
+          case "2":
+            return b.price - a.price;
+          default:
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        }
+      };
+    
     const handleChangeFilter = (name) => (e) => {
         setFilter((prev) => {
             return { ...prev, [name]: e.target.value };
@@ -84,9 +97,7 @@ export default function House() {
                     <option value="1">Nội thất một phần</option>
                     <option value="2">Đầy đủ nội thất</option>
                 </select>
-                {/* <button className="btn bg-[#1C156C] text-white hover:text-black">
-          Tìm kiếm
-        </button> */}
+
             </div>
             <div className="bg-[#F5F5F5] py-[20px] px-[100px]">
                 <div className="text-right">
@@ -94,17 +105,22 @@ export default function House() {
                         <div>
                             Tổng cộng: <span className="font-bold">{houseList.length}</span>
                         </div>
-                        <button className="btn bg-[#E3EFF8]">
-                            Sắp xếp theo <FontAwesomeIcon icon={faSort} />
-                        </button>
+                        <select
+                            className="select select-primary bg-[#DBECF9]"
+                            value={sort}
+                            onChange={(e) => setSort(e.target.value)}
+                        >
+                            <option value="0">Sắp xếp theo</option>
+                            <option value="1">Giá tăng dần</option>
+                            <option value="2">Giá giảm dần</option>
+                        </select>
                     </div>
 
                     <div className="mt-[30px]">
-                        {houseList.map((house, index) => (
+                            {houseList.sort(handleSort(sort)).map((house, index) => (
                             <HouseItem
                                 id={house._id}
                                 name={house.name}
-                                area="null"
                                 price={house.price}
                                 type={house.type}
                                 homeDirection={house.homeDirection}

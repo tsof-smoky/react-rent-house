@@ -30,6 +30,7 @@ import {
   orderDeleteReducer,
 } from "./Reducers/OrderReducer";
 import { houseBookingCreateReducer } from "./Reducers/HouseBookingReducer";
+import { statisticalReducer } from "./Reducers/StatisticalReducer";
 
 const reducer = combineReducers({
   //user
@@ -55,6 +56,8 @@ const reducer = combineReducers({
   orderDelete: orderDeleteReducer,
   //houseBooking
   houseBookingCreate: houseBookingCreateReducer,
+  //statistical
+  statistical: statisticalReducer,
 });
 
 const userFromLocal = localStorage.getItem("USER")

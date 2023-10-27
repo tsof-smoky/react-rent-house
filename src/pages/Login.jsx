@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 import { login } from "../redux/Action/UserAction";
 
@@ -14,7 +16,8 @@ export default function Login() {
     password: "",
   });
   const [isRemember, setIsRemember] = useState(false);
-
+  const [showPass, setShowPass] = useState(false);
+  
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.userLogin);
 
@@ -73,14 +76,22 @@ export default function Login() {
         ref={emailRef}
         onChange={handleChangeInput}
       />
-      <input
-        type="password"
-        placeholder="Mật khẩu"
-        className="input input-bordered w-full mt-[20px] bg-[#EAE2F9]"
-        name="password"
-        ref={passwordRef}
-        onChange={handleChangeInput}
-      />
+      <div className="flex items-center mt-[20px] w-full rounded-lg bg-[#EAE2F9]">
+        <input
+          type={showPass ? "text" : "password"}
+          placeholder="Mật khẩu"
+          name="password"
+          className="bg-[#EAE2F9] w-full py-[12px] pl-[16px] rounded-lg"
+          ref={passwordRef}
+          onChange={handleChangeInput}
+        />
+        <FontAwesomeIcon
+          icon={showPass ? faEye : faEyeSlash}
+          className="h-[20px] mx-[10px]"
+          onClick={() => setShowPass(!showPass)}
+        />
+      </div>
+
       <div className="flex justify-between items-center mt-[20px]">
         <div className="form-control">
           <label className="label cursor-pointer">

@@ -87,7 +87,7 @@ export default function Order() {
         setBirthDate(date);
         let objectDate = new Date(date);
         let day = objectDate.getDate();
-        let month = objectDate.getMonth();
+        let month = objectDate.getMonth() + 1;
         let year = objectDate.getFullYear();
         setInput((prev) => {
             return { ...prev, dateOfBirth: `${day}/${month + 1}/${year}` };

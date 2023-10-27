@@ -13,9 +13,11 @@ import ResetPassword from "../pages/ResetPassword";
 import UserList from "../pages/Admin/UserList";
 import HouseList from "../pages/Admin/HouseList";
 import OrderList from "../pages/Admin/OrderList";
+import Statistical from "../pages/Admin/Statistical";
 
 const adminRoutes = [
-  { path: "/", component: UserList, layout: AdminLayout },
+  { path: "/", component: Statistical, layout: AdminLayout },
+  { path: "/user", component: UserList, layout: AdminLayout },
   { path: "/house", component: HouseList, layout: AdminLayout },
   {
     path: "/order",

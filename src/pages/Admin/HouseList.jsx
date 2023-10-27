@@ -6,6 +6,8 @@ import {
   faTrashCan,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getHouseList,
@@ -24,6 +26,15 @@ import OnChangeInput from "../../components/OnChangeInput";
 export default function HouseList() {
   const dispatch = useDispatch();
   const { houses } = useSelector((state) => state.houseList);
+  const { house: createdHouse, error: createdError } = useSelector(
+    (state) => state.houseCreate
+  );
+  const { message: deletedMessage, error: deletedError } = useSelector(
+    (state) => state.houseDelete
+  );
+  const { house: updatedHouse, error: updatedError } = useSelector(
+    (state) => state.houseUpdate
+  );
 
   const [showViewHouseModal, setShowViewHouseModal] = useState(false);
   const [showCreateHouseModal, setShowCreateHouseModal] = useState(false);
@@ -31,6 +42,7 @@ export default function HouseList() {
   const [showDeleteHouseModal, setShowDeleteHouseModal] = useState(false);
   const [input, setInput] = useState({});
   const [files, setFiles] = useState([]);
+  const [showUpdateImgs, setShowUpdateImgs] = useState(false);
 
   useEffect(() => {
     if (!houses) {
@@ -38,6 +50,43 @@ export default function HouseList() {
     }
     console.log(houses);
   }, []);
+
+  useEffect(() => {
+    if (createdError) {
+      toast.error(createdError);
+    }
+    if (createdHouse) {
+      houses.push(createdHouse);
+      toast.success("Thêm thông tin nhà thành công");
+      setShowCreateHouseModal(false);
+    }
+  }, [createdHouse, createdError]);
+
+  useEffect(() => {
+    if (updatedError) {
+      toast.error(updatedError);
+    }
+    if (updatedHouse) {
+      houses[houses.findIndex((el) => updatedHouse._id === el._id)] =
+        updatedHouse;
+      toast.success("Cập nhập thông tin nhà thành công");
+      setShowUpdateHouseModal(false);
+    }
+  }, [updatedHouse, updatedError]);
+
+  useEffect(() => {
+    if (deletedError) {
+      toast.error(deletedError);
+    }
+    if (deletedMessage) {
+      houses.splice(
+        houses.findIndex((el) => input._id === el._id),
+        1
+      );
+      toast.success(deletedMessage);
+      setShowDeleteHouseModal(false);
+    }
+  }, [deletedMessage, deletedError]);
 
   const handleChangeInput = (event) => {
     const { name, value } = event.target;
@@ -76,7 +125,6 @@ export default function HouseList() {
         bedRoomNum: input.type[0] === "S" ? 0 : input.type[0] * 1,
       })
     );
-    console.log(input);
   };
 
   const handeOpenShowHouseModal = (e) => {
@@ -87,11 +135,31 @@ export default function HouseList() {
     setShowViewHouseModal(true);
   };
 
-  const handleOpenUpdateHouseModal = () => {
+  const handleOpenUpdateHouseModal = (e) => {
+    const index = houses.findIndex(
+      (el) => e.currentTarget.dataset.index === el._id
+    );
+    setInput({
+      ...houses[index],
+      furniture: `${houses[index].furniture}`,
+      type: houses[index].type?.replace(" +", ""),
+    });
+    setShowUpdateImgs(false);
     setShowUpdateHouseModal(true);
   };
 
-  const handleUpdateHouse = () => {};
+  const handleUpdateHouse = () => {
+    const updatedInfo = {
+      ...input,
+      furniture: input.furniture * 1,
+      bedRoomNum: input.type[0] === "S" ? 0 : input.type[0] * 1,
+    };
+    delete updatedInfo.picture;
+    if (showUpdateImgs) {
+      updatedInfo.pictures = [...files];
+    }
+    dispatch(updateHouse(updatedInfo));
+  };
 
   const handleOpenDeleteHouseModal = (e) => {
     const index = houses.findIndex(
@@ -101,10 +169,13 @@ export default function HouseList() {
     setShowDeleteHouseModal(true);
   };
 
-  const handleDeleteHouse = () => {};
+  const handleDeleteHouse = () => {
+    dispatch(deleteHouse(input._id));
+  };
 
   return (
     <div className="mt-[50px]">
+      <ToastContainer autoClose={3000} />
       <div className="text-right">
         <Button
           bgColor="bg-[#FFD700]"
@@ -238,6 +309,7 @@ export default function HouseList() {
             <select
               className="select select-primary w-full mt-[10px]"
               name="gender"
+              value={input.gender}
               onChange={handleChangeInput}
             >
               <option>Nam</option>
@@ -250,6 +322,7 @@ export default function HouseList() {
             <select
               className="select select-primary w-full mt-[10px]"
               name="type"
+              value={input.type}
               onChange={handleChangeInput}
             >
               <option>Studio</option>
@@ -263,6 +336,7 @@ export default function HouseList() {
             <select
               className="select select-primary w-full mt-[10px]"
               name="furniture"
+              value={input.furniture}
               onChange={handleChangeInput}
             >
               <option value="0">Không nội thất</option>
@@ -367,10 +441,10 @@ export default function HouseList() {
             </div>
             <div className="mt-[10px]">
               <div className="font-semibold">Hình ảnh: </div>
-              <div class="grid grid-cols-4 gap-2">
-                {input.picture?.map((el) => (
+              <div className="grid grid-cols-4 gap-2">
+                {input.picture?.map((el, index) => (
                   <div>
-                    <img src={el.fileLink} alt="" />
+                    <img src={el.fileLink} alt="" key={index} />
                   </div>
                 ))}
               </div>
@@ -390,11 +464,133 @@ export default function HouseList() {
       <ModalContent
         show={showUpdateHouseModal}
         setShow={setShowUpdateHouseModal}
+        size="lg"
       >
         <ModalHeader>
           <h2>Chỉnh sửa thông tin nhà</h2>
         </ModalHeader>
-        <ModalBody></ModalBody>
+        <ModalBody>
+          <OnChangeInput
+            type="text"
+            label="Tên"
+            placeholder="Nhập tên"
+            name="name"
+            onChange={handleChangeInput}
+            value={input.name}
+          />
+          <OnChangeInput
+            type="number"
+            label="Giá (đ/tháng)"
+            placeholder="Nhập giá"
+            name="price"
+            onChange={handleChangeInput}
+            value={input.price}
+          />
+          <OnChangeInput
+            type="text"
+            label="Lưu ý"
+            placeholder="Nhập lưu ý"
+            name="note"
+            onChange={handleChangeInput}
+            value={input.note}
+          />
+          <OnChangeInput
+            type="text"
+            label="Hướng nhà"
+            placeholder="Nhập hướng nhà"
+            name="homeDirection"
+            onChange={handleChangeInput}
+            value={input.homeDirection}
+          />
+          <div className="text-left mb-[20px]">
+            <div className="font-medium text-[#16192c] ">Giới tính</div>
+            <select
+              className="select select-primary w-full mt-[10px]"
+              name="gender"
+              value={input.gender}
+              onChange={handleChangeInput}
+            >
+              <option>Nam</option>
+              <option>Nữ</option>
+              <option>Nam và Nữ</option>
+            </select>
+          </div>
+          <div className="text-left mb-[20px]">
+            <div className="font-medium text-[#16192c] ">Loại căn</div>
+            <select
+              className="select select-primary w-full mt-[10px]"
+              name="type"
+              value={input.type}
+              onChange={handleChangeInput}
+            >
+              <option>Studio</option>
+              <option>1 phòng ngủ</option>
+              <option>2 phòng ngủ</option>
+              <option>3 phòng ngủ</option>
+            </select>
+          </div>
+          <div className="text-left mb-[20px]">
+            <div className="font-medium text-[#16192c] ">Nội thất</div>
+            <select
+              className="select select-primary w-full mt-[10px]"
+              name="furniture"
+              value={input.furniture}
+              onChange={handleChangeInput}
+            >
+              <option value="0">Không nội thất</option>
+              <option value="1">Nội thất một phần</option>
+              <option value="2">Nội thất đầy đủ</option>
+            </select>
+          </div>
+          <div className="text-left mb-[20px]">
+            <div className="font-medium text-[#16192c]">Mô tả</div>
+            <textarea
+              className="w-full border border-gray-500 mt-[10px] p-[20px]"
+              placeholder="Nhập mô tả"
+              name="description"
+              cols="30"
+              rows="5"
+              value={input.description}
+              onChange={handleChangeInput}
+            ></textarea>
+          </div>
+          <div className="text-left mb-[20px]">
+            <div className="font-semibold mb-[10px]">Hình ảnh: </div>
+            <div></div>
+            {showUpdateImgs ? (
+              <>
+                <input
+                  type="file"
+                  className="file-input file-input-bordered bg-[#FFEAEA] w-full max-w-xs mt-[10px]"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => setFiles(e.target.files)}
+                />
+                <div className="mt-[10px]">
+                  {[...files].map((f, i) => (
+                    <li key={i}>{f.name}</li>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <Button
+                  bgColor="bg-green-500"
+                  tColor="text-white"
+                  title="Cập nhật danh sách hình ảnh"
+                  onClick={() => setShowUpdateImgs(true)}
+                />
+                <div className="grid grid-cols-4 gap-2 mt-[10px]">
+                  {input.picture?.map((el, index) => (
+                    <div>
+                      <img src={el.fileLink} alt="" key={index} />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </ModalBody>
         <ModalFooter>
           <Button
             bgColor="bg-[#565e64]"

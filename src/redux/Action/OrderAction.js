@@ -99,7 +99,7 @@ export const createOrder = (input) => async (dispatch, getState) => {
     }
 
     const res = await axios.post(
-      `http://localhost:3443/api/users/order`,
+      `https://api-timnha.onrender.com/api/users/order`,
       formData,
       config
     );
@@ -170,7 +170,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
     );
     dispatch({
       type: ORDER_DELETE_SUCCESS,
-      payload: res.data.data,
+      payload: "Xóa yêu cầu tìm bạn cùng phòng thành công",
     });
   } catch (error) {
     dispatch({
