@@ -72,7 +72,8 @@ export default function Order() {
     };
 
     const handleChangePrice = (e) => {
-        const prices = e.target.value.replaceAll("đ", "").split("-");
+        // console.log(e.target.value);
+        const prices = e.target.value.replaceAll("đ", "").replaceAll(".", "").split("-");
         setInput((prev) => {
             return { ...prev, priceMin: prices[0] * 1, priceMax: prices[1] * 1 };
         });
