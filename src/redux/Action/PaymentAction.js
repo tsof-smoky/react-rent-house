@@ -34,7 +34,8 @@ export const payment = (amount, bankCode, input) => async (dispatch) => {
             payload: res.data,
         });
 
-        window.location.href = res.data.data;
+        let newTab = window.open();
+        newTab.location.href = res.data.data;
     } catch (error) {
         dispatch({
             type: PAYMENT_REQUEST_FAIL,
