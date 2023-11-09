@@ -13,7 +13,7 @@ export default function LoginLayout({ children }) {
         <Link to="/register">
           <button className="btn bg-[#FBDDDB]">Đăng ký</button>
         </Link>
-        {/* <Analytics mode = {'production'}/> */}
+        <Analytics mode = {'production'}/>
         {children}
       </div>
     </div>

@@ -26,6 +26,7 @@ export default function Statistical() {
   const [userData, setUserData] = useState([]);
   const [houseData, setHouseData] = useState([]);
   const [orderData, setOrderData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
 
   useEffect(() => {
     var date = new Date(endDate);
@@ -48,6 +49,11 @@ export default function Statistical() {
       setOrderData(
         data.dates?.map((date, index) => {
           return { name: date, order: data.order[index] };
+        })
+      );
+      setRevenueData(
+        data.dates?.map((date, index) => {
+          return { name: date, order: data.order[index]*50000 };
         })
       );
     } else if (error) {
@@ -157,6 +163,23 @@ export default function Statistical() {
           className="m-auto"
         >
           <Line type="monotone" dataKey="house" stroke="red" />
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+        </LineChart>
+      </div>
+      <div className="mt-[50px]">
+        <div className="mb-[30px] text-[30px] font-semibold">
+          Thống kê thông tin doanh thu
+        </div>
+        <LineChart
+          width={1200}
+          height={300}
+          data={revenueData}
+          className="m-auto"
+        >
+          <Line type="monotone" dataKey="order" stroke="red" />
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="name" />
           <YAxis />
