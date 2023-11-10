@@ -61,7 +61,7 @@ export default function House() {
     };
 
     const handleChangePrice = (e) => {
-        const prices = e.target.value.replaceAll("đ", "").split("-");
+        const prices = e.target.value.replaceAll("đ", "").replaceAll(".", "").split("-");
         setFilter((prev) => {
             return { ...prev, priceMin: prices[0] * 1, priceMax: prices[1] * 1 };
         });
